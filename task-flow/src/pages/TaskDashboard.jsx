@@ -1,7 +1,7 @@
-import { Link } from "react-router";
-import Button from "../components/ui/Button";
-import { useTodos } from "../hooks/useTodos";
-import TodoList from "../components/todos/TodosList";
+import { Link } from 'react-router';
+import Button from '../components/ui/Button';
+import { useTodos } from '../hooks/useTodos';
+import TodoList from '../components/todos/TodosList';
 
 export default function TaskDashboard() {
     const { todos, loading } = useTodos();
@@ -20,7 +20,7 @@ export default function TaskDashboard() {
                 </Link>
             </div>
             <div>
-                <TodoList todos={todos}/>
+                <TodoList todos={todos} />
             </div>
         </div>
     );

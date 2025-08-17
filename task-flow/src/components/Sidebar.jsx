@@ -39,12 +39,10 @@ export default function Sidebar() {
                         <h1 className="text-xl font-bold">TaskFlow</h1>
                     </Link>
                     <Button
-                        onClick={() =>
-                            setIsMobileMenuOpen(!isMobileMenuOpen)
-                        }
-                        variant='icon'
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        variant="icon"
                         ariaLabel="Toggle Mobile Menu"
-                        size='small'
+                        size="small"
                     >
                         <img
                             src={dashboardIcon}

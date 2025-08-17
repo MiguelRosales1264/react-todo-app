@@ -1,4 +1,4 @@
-export default function Chip({ children, className = '' , type = 'category' }) {
+export default function Chip({ children, className = '', type = 'category' }) {
     // These are the different types of chips we can have.
     // Each type has differnt styles.
     // Category (Work, Personal, Shopping, etc.)

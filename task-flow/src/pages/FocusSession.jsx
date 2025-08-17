@@ -4,5 +4,5 @@ export default function FocusSession() {
             <h1 className="text-2xl font-bold">Focus Session</h1>
             <p>Stay focused and productive</p>
         </div>
-    )
+    );
 }
