@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import dashboardIcon from '../assets/svg/dashboard.svg';
 import Button from './ui/Button';
 
-export default function Header() {
+export default function Sidebar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     // Handle Menu Close on Escape Key
@@ -33,15 +33,16 @@ export default function Header() {
     return (
         <>
             {/* Mobile Header - Only visible on mobile */}
-            <header className="bg-white p-4 fixed top-0 w-full z-20 border-b border-gray-200 md:hidden">
+            <header className="bg-white p-3 fixed top-0 w-full z-20 border-b border-gray-200 md:hidden">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">TaskFlow</h1>
+                    <h1 className="text-xl font-bold">TaskFlow</h1>
                     <Button
                         onClick={() =>
                             setIsMobileMenuOpen(!isMobileMenuOpen)
                         }
                         variant='icon'
                         ariaLabel="Toggle Mobile Menu"
+                        size='small'
                     >
                         <img
                             src={dashboardIcon}
@@ -49,7 +50,6 @@ export default function Header() {
                             className="w-6 h-6"
                         />
                     </Button>
-                    {/* Profile Login */}
                 </div>
             </header>
 

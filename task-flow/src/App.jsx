@@ -1,12 +1,12 @@
 import { Routes, Route, Outlet } from 'react-router';
 import './App.css';
-import Header from './components/Header';
+import Sidebar from './components/Sidebar';
 import FirebaseTest from './components/FirebaseTest';
 
 function Layout() {
     return (
         <div className="min-h-screen bg-gray-50">
-            <Header />
+            <Sidebar />
             {/* Main content area */}
             <main className="pt-16 md:pt-0 md:ml-64">
                 <div className="p-4 md:p-6">
@@ -24,7 +24,9 @@ function App() {
                 <Route
                     index
                     element={
-                        <div className="text-2xl font-bold">Task Dashboard</div>
+                        <div className="text-2xl font-bold">
+                            Task Dashboard
+                        </div>
                     }
                 />
                 <Route
@@ -38,7 +40,9 @@ function App() {
                 <Route
                     path="/daily-review"
                     element={
-                        <div className="text-2xl font-bold">Daily Review</div>
+                        <div className="text-2xl font-bold">
+                            Daily Review
+                        </div>
                     }
                 />
                 <Route
