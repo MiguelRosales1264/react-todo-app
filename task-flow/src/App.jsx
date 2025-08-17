@@ -5,6 +5,7 @@ import FirebaseTest from './components/FirebaseTest';
 import TaskDashboard from './pages/TaskDashboard';
 import NewTask from './pages/NewTask';
 import FocusSession from './pages/FocusSession';
+import DailyReview from './pages/DailyReview';
 
 function Layout() {
     return (
@@ -26,12 +27,7 @@ function App() {
             <Route path="/" element={<Layout />}>
                 <Route index element={<TaskDashboard />} />
                 <Route path="/new-task" element={<NewTask />} />
-                <Route
-                    path="/daily-review"
-                    element={
-                        <div className="text-2xl font-bold">Daily Review</div>
-                    }
-                />
+                <Route path="/daily-review" element={<DailyReview />}/>
                 <Route
                     path="/analytics"
                     element={
