@@ -17,10 +17,11 @@ export default function TodoCard({ todo, onToggleComplete }) {
         completed,
     } = todo;
 
-    const completedSubtasks = subtasks?.filter((st) => st.completed).length ?? 0;
+    const completedSubtasks =
+        subtasks?.filter((st) => st.completed).length ?? 0;
     const totalSubtasks = subtasks?.length ?? 0;
-    const progress = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
-
+    const progress =
+        totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
 
     // Dropdown menu state
     const [menuOpen, setMenuOpen] = useState(false);
@@ -65,7 +66,6 @@ export default function TodoCard({ todo, onToggleComplete }) {
         setMenuOpen(false);
         alert('Delete Task: ' + name);
     };
-
 
     return (
         <div className="flex flex-col bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
