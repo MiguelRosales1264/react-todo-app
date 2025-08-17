@@ -1,20 +1,29 @@
-import './App.css'
-import Footer from './components/Footer'
-import Header from './components/Header'
+import { Routes, Route, Outlet } from 'react-router';
+import './App.css';
+import Header from './components/Header';
+
+function Layout() {
+  return (
+    <div className='flex flex-col min-h-screen'>
+      {/* <Header /> */}
+      <Outlet />
+    </div>
+  )
+}
 
 function App() {
 
   return (
     <div className='flex flex-col min-h-screen'>
-      <Header />
-
-      <main className='flex-grow flex items-center justify-center p-4'>
-        <h1 className='text-center text-3xl font-bold text-blue-600'>Welcome to TaskFlow</h1>
-      </main>
-
-      <Footer />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<div>Home Page</div>} />
+          {/* <Route path="*" element={<NotFound />} /> */}
+          {/* Add more routes as needed */}
+        </Route>
+      </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
