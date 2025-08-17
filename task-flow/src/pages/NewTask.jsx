@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTodos } from '../hooks/useTodos';
 
-export default function FirebaseTest() {
+export default function NewTask() {
     const { todos, loading, createTodo, removeTodo } = useTodos();
     const [testName, setTestName] = useState('');
 
@@ -36,7 +36,7 @@ export default function FirebaseTest() {
 
     return (
         <div className="p-4">
-            <h2>Firebase Test</h2>
+            <h1 className="text-2xl font-bold">Create New Task</h1>
             <div className="mb-4">
                 <input
                     type="text"
