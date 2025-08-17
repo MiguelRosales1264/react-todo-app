@@ -2,6 +2,7 @@ import { Routes, Route, Outlet } from 'react-router';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import FirebaseTest from './components/FirebaseTest';
+import TaskDashboard from './pages/TaskDashboard';
 
 function Layout() {
     return (
@@ -23,11 +24,7 @@ function App() {
             <Route path="/" element={<Layout />}>
                 <Route
                     index
-                    element={
-                        <div className="text-2xl font-bold">
-                            Task Dashboard
-                        </div>
-                    }
+                    element={<TaskDashboard />}
                 />
                 <Route
                     path="/new-task"

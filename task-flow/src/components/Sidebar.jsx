@@ -35,7 +35,9 @@ export default function Sidebar() {
             {/* Mobile Header - Only visible on mobile */}
             <header className="bg-white p-3 fixed top-0 w-full z-20 border-b border-gray-200 md:hidden">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-xl font-bold">TaskFlow</h1>
+                    <Link to="/" className="text-xl font-bold">
+                        <h1 className="text-xl font-bold">TaskFlow</h1>
+                    </Link>
                     <Button
                         onClick={() =>
                             setIsMobileMenuOpen(!isMobileMenuOpen)

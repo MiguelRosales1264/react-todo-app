@@ -5,6 +5,7 @@ export default function FirebaseTest() {
     const { todos, loading, createTodo, removeTodo } = useTodos();
     const [testName, setTestName] = useState('');
 
+    // Function to handle adding a test todo
     const handleAddTest = async () => {
         if (!testName.trim()) return;
 
@@ -22,6 +23,7 @@ export default function FirebaseTest() {
         }
     };
 
+    // Function to handle removing a test todo
     const handleRemoveTest = async (id) => {
         try {
             await removeTodo(id);
