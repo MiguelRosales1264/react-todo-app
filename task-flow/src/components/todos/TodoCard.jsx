@@ -1,10 +1,11 @@
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router';
 import Chip from '../ui/Chip';
 import Button from '../ui/Button';
 import optionsVertical from '../../assets/svg/options-vertical.svg';
 import checkMark from '../../assets/svg/check-mark-circle.svg';
 
-export default function TodoCard({ todo, onToggleComplete, onOptionsClick }) {
+export default function TodoCard({ todo, onToggleComplete }) {
     const {
         id,
         name,
@@ -16,11 +17,55 @@ export default function TodoCard({ todo, onToggleComplete, onOptionsClick }) {
         completed,
     } = todo;
 
-    const completedSubtasks =
-        subtasks?.filter((st) => st.completed).length ?? 0;
+    const completedSubtasks = subtasks?.filter((st) => st.completed).length ?? 0;
     const totalSubtasks = subtasks?.length ?? 0;
-    const progress =
-        totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
+    const progress = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
+
+
+    // Dropdown menu state
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef(null);
+    const buttonRef = useRef(null);
+
+    // Close menu on outside click
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target) &&
+                !buttonRef.current.contains(event.target)
+            ) {
+                setMenuOpen(false);
+            }
+        }
+        if (menuOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [menuOpen]);
+
+    // Menu action handlers
+    const handleEdit = () => {
+        setMenuOpen(false);
+        alert('Edit Task: ' + name);
+    };
+    const handleInProgress = () => {
+        setMenuOpen(false);
+        alert('Mark as In Progress: ' + name);
+    };
+    const handleReschedule = () => {
+        setMenuOpen(false);
+        alert('Reschedule Task: ' + name);
+    };
+    const handleDelete = () => {
+        setMenuOpen(false);
+        alert('Delete Task: ' + name);
+    };
+
 
     return (
         <div className="flex flex-col bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
@@ -58,14 +103,48 @@ export default function TodoCard({ todo, onToggleComplete, onOptionsClick }) {
                 </div>
 
                 {/* Actions Menu */}
-                <Button
-                    variant="icon"
-                    className="text-gray-400 hover:text-gray-600"
-                    ariaLabel="More options"
-                    onClick={() => onOptionsClick(id)}
-                >
-                    <img src={optionsVertical} alt="" className="w-5 h-5" />
-                </Button>
+                <div className="relative">
+                    <Button
+                        ref={buttonRef}
+                        variant="icon"
+                        className="text-gray-400 hover:text-gray-600"
+                        ariaLabel="More options"
+                        onClick={() => setMenuOpen((open) => !open)}
+                    >
+                        <img src={optionsVertical} alt="" className="w-5 h-5" />
+                    </Button>
+                    {menuOpen && (
+                        <div
+                            ref={menuRef}
+                            className="absolute right-0 z-20 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 animate-fade-in"
+                        >
+                            <button
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                onClick={handleEdit}
+                            >
+                                Edit Task
+                            </button>
+                            <button
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                onClick={handleInProgress}
+                            >
+                                Mark as In Progress
+                            </button>
+                            <button
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                onClick={handleReschedule}
+                            >
+                                Reschedule Task
+                            </button>
+                            <button
+                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                                onClick={handleDelete}
+                            >
+                                Delete Task
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* Bottom Section: Due Date, Progress, etc */}
@@ -86,19 +165,17 @@ export default function TodoCard({ todo, onToggleComplete, onOptionsClick }) {
                 </div>
 
                 {/* Progress Indicator (if there are subtasks) */}
-                {subtasks && subtasks.length > 0 && (
-                    <div className="flex items-center gap-2">
-                        <div className="w-24 h-1.5 bg-gray-200 rounded-full">
-                            <div
-                                className="h-full bg-blue-500 rounded-full"
-                                style={{ width: `${progress}%` }}
-                            />
-                        </div>
-                        <span className="text-xs text-gray-500">
-                            {completedSubtasks}/{totalSubtasks}
-                        </span>
+                <div className="flex items-center gap-2">
+                    <div className="w-24 h-1.5 bg-gray-200 rounded-full">
+                        <div
+                            className="h-full bg-blue-500 rounded-full"
+                            style={{ width: `${progress}%` }}
+                        />
                     </div>
-                )}
+                    <span className="text-xs text-gray-500">
+                        {completedSubtasks}/{totalSubtasks}
+                    </span>
+                </div>
             </div>
 
             {/* Focus Session Button */}

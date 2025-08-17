@@ -71,10 +71,6 @@ export default function TodosList() {
                                     // TODO: Implement toggle complete
                                     console.log('Toggle complete:', id);
                                 }}
-                                onOptionsClick={(id) => {
-                                    // TODO: Implement options menu
-                                    console.log('Options clicked:', id);
-                                }}
                             />
                         ))}
                     </div>
