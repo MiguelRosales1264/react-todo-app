@@ -85,7 +85,7 @@ export default function Header() {
                                 </li>
                                 <li>
                                     <a 
-                                        href="/newTask"
+                                        href="/new-task"
                                         className='flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700'
                                     >
                                         <img src={dashboardIcon} alt="" className='w-5 h-5' />
@@ -94,7 +94,7 @@ export default function Header() {
                                 </li>
                                 <li>
                                     <a 
-                                        href="/dailyReview"
+                                        href="/daily-review"
                                         className='flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700'
                                     >
                                         <img src={dashboardIcon} alt="" className='w-5 h-5' />
