@@ -4,25 +4,27 @@ import Header from './components/Header';
 
 function Layout() {
   return (
-    <div className='flex flex-col min-h-screen'>
+    <div className='min-h-screen bg-gray-50'>
       <Header />
-      <Outlet />
+      {/* Main content area */}
+      <main className='pt-16 md:pt-0 md:ml-64'>
+        <div className='p-4 md:p-6'>
+          <Outlet />
+        </div>
+      </main>
     </div>
   )
 }
 
 function App() {
-
   return (
-    <div className='flex flex-col min-h-screen'>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<div>Home Page</div>} />
-          {/* <Route path="*" element={<NotFound />} /> */}
-          {/* Add more routes as needed */}
-        </Route>
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<div className="text-2xl font-bold">Home Page</div>} />
+        {/* <Route path="*" element={<NotFound />} /> */}
+        {/* Add more routes as needed */}
+      </Route>
+    </Routes>
   );
 }
 
