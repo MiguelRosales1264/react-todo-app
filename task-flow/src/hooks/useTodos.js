@@ -65,6 +65,6 @@ export const useTodos = () => {
         error,
         createTodo,
         editTodo,
-        removeTodo
+        removeTodo,
     };
 };

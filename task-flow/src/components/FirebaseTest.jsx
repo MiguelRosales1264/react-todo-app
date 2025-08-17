@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTodos } from '../hooks/useTodos';
 
 export default function FirebaseTest() {
-    const { todos, loading, createTodo } = useTodos();
+    const { todos, loading, createTodo, removeTodo } = useTodos();
     const [testName, setTestName] = useState('');
 
     const handleAddTest = async () => {
@@ -19,6 +19,14 @@ export default function FirebaseTest() {
         setTestName('');
         } catch (error) {
         console.error('Failed to add todo:', error);
+        }
+    };
+
+    const handleRemoveTest = async (id) => {
+        try {
+            await removeTodo(id);
+        } catch (error) {
+            console.error('Failed to remove todo:', error);
         }
     };
 
@@ -42,9 +50,12 @@ export default function FirebaseTest() {
             <div>
                 <h3>Todos ({todos.length}):</h3>
                 {todos.map(todo => (
-                <div key={todo.id} className="border p-2 mb-2">
-                    {todo.name} - {todo.category}
-                </div>
+                    <div key={todo.id} className="flex justify-between border p-2 mb-2">
+                        {todo.name} - {todo.category}
+                        <button onClick={() => handleRemoveTest(todo.id)} className="bg-red-500 text-white p-2">
+                            Remove
+                        </button>
+                    </div>
                 ))}
             </div>
         </div>
