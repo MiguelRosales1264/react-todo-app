@@ -1,6 +1,7 @@
 import { Routes, Route, Outlet } from 'react-router';
 import './App.css';
 import Header from './components/Header';
+import FirebaseTest from './components/FirebaseTest';
 
 function Layout() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/new-task" element={<div className="text-2xl font-bold">Create New Task</div>} />
         <Route path="/daily-review" element={<div className="text-2xl font-bold">Daily Review</div>} />
         <Route path="/analytics" element={<div className="text-2xl font-bold">Analytics Dashboard</div>} />
+        <Route path="/firebase-test" element={<FirebaseTest />} />
         {/* <Route path="*" element={<NotFound />} /> */}
         {/* Add more routes as needed */}
       </Route>
