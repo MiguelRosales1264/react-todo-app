@@ -4,6 +4,7 @@ import Chip from '../ui/Chip';
 import Button from '../ui/Button';
 import optionsVertical from '../../assets/svg/options-vertical.svg';
 import checkMark from '../../assets/svg/check-mark-circle.svg';
+import calendar from '../../assets/svg/calendar.svg';
 
 export default function TodoCard({ todo, onToggleComplete }) {
     const {
@@ -150,8 +151,8 @@ export default function TodoCard({ todo, onToggleComplete }) {
             {/* Bottom Section: Due Date, Progress, etc */}
             <div className="flex items-center justify-between mt-2 pt-3 border-t border-gray-100">
                 <div className="flex items-center gap-4">
-                    <span className="text-sm text-gray-500">
-                        Due {dueDate?.toLocaleDateString()}
+                    <span className="flex gap-2 text-sm items-center justify-center text-gray-500 w-4 h-4">
+                        <img src={calendar} alt="Calendar Icon" /> {dueDate?.toLocaleDateString()}
                     </span>
                     {scheduledTime && (
                         <span className="text-sm text-gray-500">
@@ -182,7 +183,7 @@ export default function TodoCard({ todo, onToggleComplete }) {
             <div className="mt-4 flex justify-end">
                 <Link to={`/focus-session/${id}`}>
                     <Button
-                        variant="primary"
+                        variant="outline"
                         className="flex items-center gap-2"
                     >
                         Start Progressing

@@ -15,6 +15,8 @@ export default function Button({
             'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 rounded-md',
         secondary:
             'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300 rounded-md',
+        outline:
+            'border border-gray-300 text-gray-700 hover:bg-gray-50 active:bg-gray-100 rounded-md',
         danger: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700 rounded-md',
         icon: 'text-gray-600 hover:bg-gray-100 active:bg-gray-200 rounded-full',
         'icon-primary':
