@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import dashboardIcon from '../assets/svg/dashboard.svg';
+import Button from './ui/Button';
 
 export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -34,22 +35,20 @@ export default function Header() {
             {/* Mobile Header - Only visible on mobile */}
             <header className="bg-white p-4 fixed top-0 w-full z-20 border-b border-gray-200 md:hidden">
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <button
-                            onClick={() =>
-                                setIsMobileMenuOpen(!isMobileMenuOpen)
-                            }
-                            className="md:hidden"
-                            aria-label="Toggle Mobile Menu"
-                        >
-                            <img
-                                src={dashboardIcon}
-                                alt="Menu"
-                                className="w-6 h-6"
-                            />
-                        </button>
-                        <h1 className="text-2xl font-bold">TaskFlow</h1>
-                    </div>
+                    <h1 className="text-2xl font-bold">TaskFlow</h1>
+                    <Button
+                        onClick={() =>
+                            setIsMobileMenuOpen(!isMobileMenuOpen)
+                        }
+                        variant='icon'
+                        ariaLabel="Toggle Mobile Menu"
+                    >
+                        <img
+                            src={dashboardIcon}
+                            alt="Menu"
+                            className="w-6 h-6"
+                        />
+                    </Button>
                     {/* Profile Login */}
                 </div>
             </header>
