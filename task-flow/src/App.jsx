@@ -3,6 +3,8 @@ import './App.css';
 import Sidebar from './components/Sidebar';
 import FirebaseTest from './components/FirebaseTest';
 import TaskDashboard from './pages/TaskDashboard';
+import NewTask from './pages/NewTask';
+import FocusSession from './pages/FocusSession';
 
 function Layout() {
     return (
@@ -29,9 +31,7 @@ function App() {
                 <Route
                     path="/new-task"
                     element={
-                        <div className="text-2xl font-bold">
-                            Create New Task
-                        </div>
+                        <NewTask />
                     }
                 />
                 <Route
@@ -48,6 +48,12 @@ function App() {
                         <div className="text-2xl font-bold">
                             Analytics Dashboard
                         </div>
+                    }
+                />
+                <Route
+                    path="/focus-session"
+                    element={
+                        <FocusSession />
                     }
                 />
                 <Route path="/firebase-test" element={<FirebaseTest />} />
