@@ -8,6 +8,7 @@ import {
     query,
     where, 
     orderBy,
+    Timestamp,
 } from 'firebase/firestore';
 import { db } from './config';
 
@@ -18,7 +19,9 @@ export const addTodo = async (todoData) => {
     try {
         const docRef = await addDoc(collection(db, TODOS_COLLECTION), {
             ...todoData,
-            createdAt: new Date(),
+            createdAt: Timestamp.now(),
+            dueDate: todoData.dueData ? Timestamp.fromDate(todoData.dueDate) : null,
+            scheduledTime: todoData.scheduledTime ? Timestamp.fromDate(todoData.scheduledTime) : null,
             completed: false,
         });
         return { id: docRef.id, ...todoData };
@@ -34,10 +37,16 @@ export const getTodos = async () => {
         const querySnapshot = await getDocs(
             query(collection(db, TODOS_COLLECTION), orderBy('createdAt', 'desc'))
         );
-        return querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-        }));
+        return querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                ...data,
+                createdAt: data.createdAt.toDate(),
+                dueDate: data.dueDate ? data.dueDate.toDate() : null,
+                scheduledTime: data.scheduledTime ? data.scheduledTime.toDate() : null,
+            };
+        });
     } catch (error) {
         console.error("Error getting todos: ", error);
         throw error;
@@ -48,7 +57,12 @@ export const getTodos = async () => {
 export const updateTodo = async (id, updates) => {
     try {
         const todoRef = doc(db, TODOS_COLLECTION, id);
-        await updateDoc(todoRef, updates);
+        const processedUpdates = {
+            ...updates,
+            dueDate: updates.dueDate ? Timestamp.fromDate(new Date(updates.dueDate)) : null,
+            scheduledTime: updates.scheduledTime ? Timestamp.fromDate(new Date(updates.scheduledTime)) : null,
+        };
+        await updateDoc(todoRef, processedUpdates);
         return { id, ...updates };
     } catch (error) {
         console.error("Error updating todo: ", error);
