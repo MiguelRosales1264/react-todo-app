@@ -26,21 +26,27 @@ export default function Header() {
         }
         return () => {
             document.body.style.overflow = 'unset';
-        }
+        };
     }, [isMobileMenuOpen]);
 
     return (
         <>
             {/* Mobile Header - Only visible on mobile */}
             <header className="bg-white p-4 fixed top-0 w-full z-20 border-b border-gray-200 md:hidden">
-                <div className='flex items-center justify-between'>
+                <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <button 
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className='md:hidden'
-                            aria-label='Toggle Mobile Menu'
+                        <button
+                            onClick={() =>
+                                setIsMobileMenuOpen(!isMobileMenuOpen)
+                            }
+                            className="md:hidden"
+                            aria-label="Toggle Mobile Menu"
                         >
-                            <img src={dashboardIcon} alt="Menu" className='w-6 h-6' />
+                            <img
+                                src={dashboardIcon}
+                                alt="Menu"
+                                className="w-6 h-6"
+                            />
                         </button>
                         <h1 className="text-2xl font-bold">TaskFlow</h1>
                     </div>
@@ -49,9 +55,11 @@ export default function Header() {
             </header>
 
             {/* Mobile Overlay */}
-            <div 
+            <div
                 className={`fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity md:hidden ${
-                    isMobileMenuOpen ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                    isMobileMenuOpen
+                        ? 'opacity-50 pointer-events-auto'
+                        : 'opacity-0 pointer-events-none'
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
             />
@@ -63,55 +71,81 @@ export default function Header() {
                     w-64 md:translate-x-0
                     ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
             >
-                <div className='flex flex-col h-full'>
+                <div className="flex flex-col h-full">
                     {/* Logo & App Name */}
-                    <div className='flex items-center p-4 border-b border-gray-200'>
-                        <h2 className='text-xl font-bold'>TaskFlow</h2>
+                    <div className="flex items-center p-4 border-b border-gray-200">
+                        <h2 className="text-xl font-bold">TaskFlow</h2>
                     </div>
 
                     {/* Dashboard Items */}
-                    <div className='flex flex-col h-full gap-2 p-4'>
+                    <div className="flex flex-col h-full gap-2 p-4">
                         {/* Navigation */}
-                        <div className='flex flex-col font-bold p-2'>
-                            <h4 className='uppercase text-xs text-gray-400 px-3 py-2'>Navigation</h4>
-                            <ul className='space-y-1 text-sm text-gray-600'>
+                        <div className="flex flex-col font-bold p-2">
+                            <h4 className="uppercase text-xs text-gray-400 px-3 py-2">
+                                Navigation
+                            </h4>
+                            <ul className="space-y-1 text-sm text-gray-600">
                                 <li>
-                                    <Link 
+                                    <Link
                                         to="/"
-                                        className='flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700'
-                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700"
+                                        onClick={() =>
+                                            setIsMobileMenuOpen(false)
+                                        }
                                     >
-                                        <img src={dashboardIcon} alt="" className='w-5 h-5' />
+                                        <img
+                                            src={dashboardIcon}
+                                            alt=""
+                                            className="w-5 h-5"
+                                        />
                                         Dashboard
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link 
+                                    <Link
                                         to="/new-task"
-                                        className='flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700'
-                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700"
+                                        onClick={() =>
+                                            setIsMobileMenuOpen(false)
+                                        }
                                     >
-                                        <img src={dashboardIcon} alt="" className='w-5 h-5' />
+                                        <img
+                                            src={dashboardIcon}
+                                            alt=""
+                                            className="w-5 h-5"
+                                        />
                                         New Task
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link 
+                                    <Link
                                         to="/daily-review"
-                                        className='flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700'
-                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700"
+                                        onClick={() =>
+                                            setIsMobileMenuOpen(false)
+                                        }
                                     >
-                                        <img src={dashboardIcon} alt="" className='w-5 h-5' />
+                                        <img
+                                            src={dashboardIcon}
+                                            alt=""
+                                            className="w-5 h-5"
+                                        />
                                         Daily Review
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link 
+                                    <Link
                                         to="/analytics"
-                                        className='flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700'
-                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700"
+                                        onClick={() =>
+                                            setIsMobileMenuOpen(false)
+                                        }
                                     >
-                                        <img src={dashboardIcon} alt="" className='w-5 h-5' />
+                                        <img
+                                            src={dashboardIcon}
+                                            alt=""
+                                            className="w-5 h-5"
+                                        />
                                         Analytics
                                     </Link>
                                 </li>
@@ -119,29 +153,42 @@ export default function Header() {
                         </div>
 
                         {/* Quick Stats */}
-                        <div className='flex flex-col font-bold p-2'>
+                        <div className="flex flex-col font-bold p-2">
                             <div>
-                                <h4 className='uppercase text-xs text-gray-400 px-3 py-2'>Quick Stats</h4>
+                                <h4 className="uppercase text-xs text-gray-400 px-3 py-2">
+                                    Quick Stats
+                                </h4>
                             </div>
                             <div>
-                                <ul className='text-sm text-gray-600'>
+                                <ul className="text-sm text-gray-600">
                                     <li>
-                                        <p className='flex justify-between py-3 px-4 hover:bg-gray-200 rounded-md'>
-                                            <div>Todays Tasks</div> <span className='font-bold text-green-600'>5</span>
+                                        <p className="flex justify-between py-3 px-4 hover:bg-gray-200 rounded-md">
+                                            <div>Todays Tasks</div>{' '}
+                                            <span className="font-bold text-green-600">
+                                                5
+                                            </span>
                                         </p>
                                     </li>
                                     <li>
-                                        <p className='flex justify-between py-3 px-4 hover:bg-gray-200 rounded-md'>
-                                            <div>Completed</div> <span className='font-bold text-red-600'>3</span>
+                                        <p className="flex justify-between py-3 px-4 hover:bg-gray-200 rounded-md">
+                                            <div>Completed</div>{' '}
+                                            <span className="font-bold text-red-600">
+                                                3
+                                            </span>
                                         </p>
                                     </li>
                                 </ul>
                                 {/* Progress Bar */}
-                                <div className='mt-4'>
-                                    <div className='bg-gray-200 rounded-full h-2.5'>
-                                        <div className='bg-blue-500 h-2.5 rounded-full' style={{ width: '60%' }}></div>
+                                <div className="mt-4">
+                                    <div className="bg-gray-200 rounded-full h-2.5">
+                                        <div
+                                            className="bg-blue-500 h-2.5 rounded-full"
+                                            style={{ width: '60%' }}
+                                        ></div>
                                     </div>
-                                    <p className='text-xs text-gray-500 mt-1'>60% of tasks completed</p>
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        60% of tasks completed
+                                    </p>
                                 </div>
                             </div>
                         </div>
