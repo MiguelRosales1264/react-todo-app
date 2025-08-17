@@ -21,6 +21,9 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<div className="text-2xl font-bold">Task Dashboard</div>} />
+        <Route path="/new-task" element={<div className="text-2xl font-bold">Create New Task</div>} />
+        <Route path="/daily-review" element={<div className="text-2xl font-bold">Daily Review</div>} />
+        <Route path="/analytics" element={<div className="text-2xl font-bold">Analytics Dashboard</div>} />
         {/* <Route path="*" element={<NotFound />} /> */}
         {/* Add more routes as needed */}
       </Route>
