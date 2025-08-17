@@ -20,7 +20,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<div className="text-2xl font-bold">Home Page</div>} />
+        <Route index element={<div className="text-2xl font-bold">Task Dashboard</div>} />
         {/* <Route path="*" element={<NotFound />} /> */}
         {/* Add more routes as needed */}
       </Route>
