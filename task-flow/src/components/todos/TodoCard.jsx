@@ -4,7 +4,24 @@ import Chip from '../ui/Chip';
 import Button from '../ui/Button';
 import optionsVertical from '../../assets/svg/options-vertical.svg';
 import checkMark from '../../assets/svg/check-mark-circle.svg';
+
 import calendar from '../../assets/svg/calendar.svg';
+
+// Helper to format date safely
+function formatDate(date) {
+    if (!date) return '';
+    try {
+        if (typeof date === 'string' || typeof date === 'number') {
+            date = new Date(date);
+        } else if (date.toDate) {
+            date = date.toDate(); // Firestore Timestamp
+        }
+        if (isNaN(date.getTime())) return '';
+        return date.toLocaleDateString();
+    } catch {
+        return '';
+    }
+}
 
 export default function TodoCard({ todo, onToggleComplete }) {
     const {
@@ -149,24 +166,28 @@ export default function TodoCard({ todo, onToggleComplete }) {
             </div>
 
             {/* Bottom Section: Due Date, Progress, etc */}
-            <div className="flex items-center justify-between mt-2 pt-3 border-t border-gray-100">
-                <div className="flex items-center gap-4">
-                    <span className="flex gap-2 text-sm items-center justify-center text-gray-500 w-4 h-4">
-                        <img src={calendar} alt="Calendar Icon" /> {dueDate?.toLocaleDateString()}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2 pt-3 border-t border-gray-100 gap-2">
+                <div className="flex items-center gap-3">
+                    <span className="flex items-center gap-1 text-sm text-gray-500">
+                        <img src={calendar} alt="Calendar Icon" className="w-4 h-4" />
+                        {formatDate(dueDate) || <span className="italic text-gray-400">No due date</span>}
                     </span>
                     {scheduledTime && (
                         <span className="text-sm text-gray-500">
                             @{' '}
-                            {scheduledTime.toLocaleTimeString([], {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                            })}
+                            {(() => {
+                                let d = scheduledTime;
+                                if (typeof d === 'string' || typeof d === 'number') d = new Date(d);
+                                else if (d.toDate) d = d.toDate();
+                                if (isNaN(d.getTime())) return '';
+                                return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                            })()}
                         </span>
                     )}
                 </div>
 
                 {/* Progress Indicator (if there are subtasks) */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 mt-2 sm:mt-0">
                     <div className="w-24 h-1.5 bg-gray-200 rounded-full">
                         <div
                             className="h-full bg-blue-500 rounded-full"
