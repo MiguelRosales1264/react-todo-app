@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import dashboardIcon from '../assets/svg/dashboard.svg';
 
 export default function Header() {
@@ -75,40 +76,44 @@ export default function Header() {
                             <h4 className='uppercase text-xs text-gray-400 px-3 py-2'>Navigation</h4>
                             <ul className='space-y-1 text-sm text-gray-600'>
                                 <li>
-                                    <a 
-                                        href="/"
+                                    <Link 
+                                        to="/"
                                         className='flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700'
+                                        onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         <img src={dashboardIcon} alt="" className='w-5 h-5' />
                                         Dashboard
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a 
-                                        href="/new-task"
+                                    <Link 
+                                        to="/new-task"
                                         className='flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700'
+                                        onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         <img src={dashboardIcon} alt="" className='w-5 h-5' />
                                         New Task
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a 
-                                        href="/daily-review"
+                                    <Link 
+                                        to="/daily-review"
                                         className='flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700'
+                                        onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         <img src={dashboardIcon} alt="" className='w-5 h-5' />
                                         Daily Review
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a 
-                                        href="/analytics"
+                                    <Link 
+                                        to="/analytics"
                                         className='flex items-center gap-3 py-3 px-4 hover:bg-gray-100 rounded-md text-gray-700'
+                                        onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         <img src={dashboardIcon} alt="" className='w-5 h-5' />
                                         Analytics
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
