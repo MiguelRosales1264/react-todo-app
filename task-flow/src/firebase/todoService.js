@@ -2,6 +2,7 @@ import {
     collection,
     addDoc,
     getDocs,
+    getDoc,
     doc,
     updateDoc,
     deleteDoc,
@@ -62,6 +63,32 @@ export const getTodos = async () => {
     }
 };
 
+// Get a specific todo by ID
+export const getTodoById = async (id) => {
+    try {
+        const todoRef = doc(db, TODOS_COLLECTION, id); // Reference to the specific todo document
+        const docSnap = await getDoc(todoRef); // Using getDoc instead of getDocs
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            return {
+                id: docSnap.id,
+                ...data,
+                createdAt: data.createdAt.toDate(),
+                dueDate: data.dueDate ? data.dueDate.toDate() : null,
+                scheduledTime: data.scheduledTime
+                    ? data.scheduledTime.toDate()
+                    : null,
+            };
+        } else {
+            console.error('No such todo!');
+            throw new Error('Todo not found');
+        }
+    } catch (error) {
+        console.error('Error getting todo by ID: ', error);
+        throw error;
+    }
+}
+
 // Update a todo
 export const updateTodo = async (id, updates) => {
     try {
@@ -116,6 +143,88 @@ export const getTodaysTodos = async () => {
         }));
     } catch (error) {
         console.error("Error getting today's todos: ", error);
+        throw error;
+    }
+};
+
+// Add a subtask to a todo
+export const addSubtask = async (todoId, subtaskData) => {
+    try {
+        const todoRef = doc(db, TODOS_COLLECTION, todoId);
+        const todo = await getDoc(todoRef);
+        
+        if (!todo.exists()) {
+            throw new Error('Todo not found');
+        }
+
+        const currentSubtasks = todo.data().subtasks || [];
+        const newSubtask = {
+            id: Date.now().toString(), // Generate a unique ID for the subtask
+            createdAt: Timestamp.now(),
+            completed: false,
+            ...subtaskData
+        };
+
+        await updateDoc(todoRef, {
+            subtasks: [...currentSubtasks, newSubtask]
+        });
+
+        return newSubtask;
+    } catch (error) {
+        console.error('Error adding subtask: ', error);
+        throw error;
+    }
+};
+
+// Update a subtask
+export const updateSubtask = async (todoId, subtaskId, updates) => {
+    try {
+        const todoRef = doc(db, TODOS_COLLECTION, todoId);
+        const todo = await getDoc(todoRef);
+        
+        if (!todo.exists()) {
+            throw new Error('Todo not found');
+        }
+
+        const subtasks = todo.data().subtasks || [];
+        const subtaskIndex = subtasks.findIndex(st => st.id === subtaskId);
+        
+        if (subtaskIndex === -1) {
+            throw new Error('Subtask not found');
+        }
+
+        const updatedSubtasks = [...subtasks];
+        updatedSubtasks[subtaskIndex] = {
+            ...updatedSubtasks[subtaskIndex],
+            ...updates,
+            updatedAt: Timestamp.now()
+        };
+
+        await updateDoc(todoRef, { subtasks: updatedSubtasks });
+        return updatedSubtasks[subtaskIndex];
+    } catch (error) {
+        console.error('Error updating subtask: ', error);
+        throw error;
+    }
+};
+
+// Delete a subtask
+export const deleteSubtask = async (todoId, subtaskId) => {
+    try {
+        const todoRef = doc(db, TODOS_COLLECTION, todoId);
+        const todo = await getDoc(todoRef);
+        
+        if (!todo.exists()) {
+            throw new Error('Todo not found');
+        }
+
+        const subtasks = todo.data().subtasks || [];
+        const updatedSubtasks = subtasks.filter(st => st.id !== subtaskId);
+
+        await updateDoc(todoRef, { subtasks: updatedSubtasks });
+        return subtaskId;
+    } catch (error) {
+        console.error('Error deleting subtask: ', error);
         throw error;
     }
 };

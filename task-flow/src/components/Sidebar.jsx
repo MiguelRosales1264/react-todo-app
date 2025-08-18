@@ -161,20 +161,20 @@ export default function Sidebar() {
                             <div>
                                 <ul className="text-sm text-gray-600">
                                     <li>
-                                        <p className="flex justify-between py-3 px-4 hover:bg-gray-200 rounded-md">
-                                            <div>Todays Tasks</div>{' '}
+                                        <div className="flex justify-between py-3 px-4 hover:bg-gray-200 rounded-md">
+                                            <p>Todays Tasks</p>{' '}
                                             <span className="font-bold text-green-600">
                                                 5
                                             </span>
-                                        </p>
+                                        </div>
                                     </li>
                                     <li>
-                                        <p className="flex justify-between py-3 px-4 hover:bg-gray-200 rounded-md">
-                                            <div>Completed</div>{' '}
+                                        <div className="flex justify-between py-3 px-4 hover:bg-gray-200 rounded-md">
+                                            <p>Completed</p>{' '}
                                             <span className="font-bold text-red-600">
                                                 3
                                             </span>
-                                        </p>
+                                        </div>
                                     </li>
                                 </ul>
                                 {/* Progress Bar */}
