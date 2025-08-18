@@ -6,7 +6,7 @@ const todoStructure = {
     dueDate: Date,
     scheduledTime: Date | null,
     completed: Boolean,
-    priority: 'Low' | 'Medium' | 'High',
+    priority: 'Low' | 'Medium' | 'High' | 'Critical',
     status: 'Todo' | 'In Progress' | 'Done',
     createdAt: Date,
     updatedAt: Date,
