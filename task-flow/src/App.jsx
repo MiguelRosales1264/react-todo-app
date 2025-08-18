@@ -36,7 +36,7 @@ function App() {
                         </div>
                     }
                 />
-                <Route path="/focus-session" element={<FocusSession />} />
+                <Route path='/focus-session/:todoId' element={<FocusSession />} />
                 <Route path="/firebase-test" element={<FirebaseTest />} />
                 {/* <Route path="*" element={<NotFound />} /> */}
                 {/* Add more routes as needed */}
