@@ -6,8 +6,20 @@ import NewSubtaskForm from '../components/todos/NewSubtaskForm';
 
 export default function FocusSession() {
     const { todoId } = useParams();
-    const { todo, loading, error, addTodoSubtask } = useTodo(todoId);
+    const { todo, loading, error, addTodoSubtask, update } = useTodo(todoId);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    
+    const handleToggleComplete = async () => {
+        try {
+            await update({
+                completed: !todo.completed,
+                // If marking as complete, set completedAt, otherwise null
+                completedAt: !todo.completed ? new Date() : null
+            });
+        } catch (error) {
+            console.error('Error toggling task completion:', error);
+        }
+    };
     
     const handleAddSubtask = async (subtaskData) => {
         try {
@@ -29,8 +41,22 @@ export default function FocusSession() {
                 <div className="text-red-500">Error: {error.message}</div>
             )}
             {todo ? (
-                <div>
-                    <h2 className="text-xl font-semibold">{todo.name}</h2>
+                <div className={todo.completed ? 'opacity-50' : ''}>
+                    <div className="flex justify-between items-start mb-4">
+                        <h2 className={`text-xl font-semibold ${todo.completed ? 'line-through' : ''}`}>
+                            {todo.name}
+                        </h2>
+                        <button
+                            onClick={handleToggleComplete}
+                            className={`px-4 py-2 rounded-md text-white ${
+                                todo.completed
+                                    ? 'bg-yellow-500 hover:bg-yellow-600'
+                                    : 'bg-green-600 hover:bg-green-700'
+                            }`}
+                        >
+                            {todo.completed ? 'Mark Incomplete' : 'Mark Complete'}
+                        </button>
+                    </div>
                     <p className="mt-2">{todo.description}</p>
                     <p className="mt-2">
                         Due Date:{' '}

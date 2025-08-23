@@ -21,7 +21,15 @@ function Layout() {
     );
 }
 
+import { useEffect } from 'react';
+import { setupPeriodicCleanup } from './utils/taskCleanup';
+
 function App() {
+    useEffect(() => {
+        // Set up periodic cleanup of old completed tasks
+        setupPeriodicCleanup();
+    }, []);
+
     return (
         <Routes>
             <Route path="/" element={<Layout />}>

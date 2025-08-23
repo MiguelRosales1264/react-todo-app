@@ -102,6 +102,8 @@ export const updateTodo = async (id, updates) => {
             scheduledTime: updates.scheduledTime
                 ? Timestamp.fromDate(new Date(updates.scheduledTime))
                 : null,
+            // Add completedAt timestamp when marking as completed
+            completedAt: updates.completed ? Timestamp.now() : null
         };
         await updateDoc(todoRef, processedUpdates);
         return { id, ...updates };
@@ -118,6 +120,29 @@ export const deleteTodo = async (id) => {
         return id;
     } catch (error) {
         console.error('Error deleting todo: ', error);
+        throw error;
+    }
+};
+
+// Clean up old completed tasks (older than 30 days)
+export const cleanupOldCompletedTasks = async () => {
+    try {
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        
+        const q = query(
+            collection(db, TODOS_COLLECTION),
+            where('completed', '==', true),
+            where('completedAt', '<=', Timestamp.fromDate(thirtyDaysAgo))
+        );
+
+        const querySnapshot = await getDocs(q);
+        const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
+        await Promise.all(deletePromises);
+        
+        return querySnapshot.docs.length; // Return number of deleted tasks
+    } catch (error) {
+        console.error('Error cleaning up old tasks:', error);
         throw error;
     }
 };
