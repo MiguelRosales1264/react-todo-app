@@ -169,18 +169,33 @@ export default function TodoCard({ todo, onToggleComplete }) {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2 pt-3 border-t border-gray-100 gap-2">
                 <div className="flex items-center gap-3">
                     <span className="flex items-center gap-1 text-sm text-gray-500">
-                        <img src={calendar} alt="Calendar Icon" className="w-4 h-4" />
-                        {formatDate(dueDate) || <span className="italic text-gray-400">No due date</span>}
+                        <img
+                            src={calendar}
+                            alt="Calendar Icon"
+                            className="w-4 h-4"
+                        />
+                        {formatDate(dueDate) || (
+                            <span className="italic text-gray-400">
+                                No due date
+                            </span>
+                        )}
                     </span>
                     {scheduledTime && (
                         <span className="text-sm text-gray-500">
                             @{' '}
                             {(() => {
                                 let d = scheduledTime;
-                                if (typeof d === 'string' || typeof d === 'number') d = new Date(d);
+                                if (
+                                    typeof d === 'string' ||
+                                    typeof d === 'number'
+                                )
+                                    d = new Date(d);
                                 else if (d.toDate) d = d.toDate();
                                 if (isNaN(d.getTime())) return '';
-                                return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                                return d.toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                });
                             })()}
                         </span>
                     )}
