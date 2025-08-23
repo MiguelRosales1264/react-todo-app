@@ -130,17 +130,25 @@ export const cleanupOldCompletedTasks = async () => {
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
         
+        // First get all completed tasks
         const q = query(
             collection(db, TODOS_COLLECTION),
-            where('completed', '==', true),
-            where('completedAt', '<=', Timestamp.fromDate(thirtyDaysAgo))
+            where('completed', '==', true)
         );
 
         const querySnapshot = await getDocs(q);
-        const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
+        
+        // Then filter in memory for those older than 30 days
+        const oldDocs = querySnapshot.docs.filter(doc => {
+            const completedAt = doc.data().completedAt?.toDate();
+            return completedAt && completedAt <= thirtyDaysAgo;
+        });
+
+        // Delete the filtered documents
+        const deletePromises = oldDocs.map(doc => deleteDoc(doc.ref));
         await Promise.all(deletePromises);
         
-        return querySnapshot.docs.length; // Return number of deleted tasks
+        return oldDocs.length; // Return number of deleted tasks
     } catch (error) {
         console.error('Error cleaning up old tasks:', error);
         throw error;
