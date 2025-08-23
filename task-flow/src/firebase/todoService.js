@@ -28,6 +28,7 @@ export const addTodo = async (todoData) => {
                 ? Timestamp.fromDate(todoData.scheduledTime)
                 : null,
             completed: false,
+            subtasks: [], // Initialize empty subtasks array
         });
         return { id: docRef.id, ...todoData };
     } catch (error) {
@@ -159,10 +160,17 @@ export const addSubtask = async (todoId, subtaskData) => {
 
         const currentSubtasks = todo.data().subtasks || [];
         const newSubtask = {
-            id: Date.now().toString(), // Generate a unique ID for the subtask
+            id: `st_${Date.now()}${Math.random().toString(36).substr(2, 9)}`,
+            title: String(subtaskData.title || subtaskData.name || 'Untitled Subtask'),
+            description: subtaskData.description || '',
+            status: 'not_started', // Add status field
+            completed: Boolean(subtaskData.completed || false),
+            priority: subtaskData.priority || 'medium',
+            estimatedTime: subtaskData.estimatedTime || null,
+            notes: subtaskData.notes || '',
+            dueDate: subtaskData.dueDate ? Timestamp.fromDate(new Date(subtaskData.dueDate)) : null,
             createdAt: Timestamp.now(),
-            completed: false,
-            ...subtaskData
+            updatedAt: Timestamp.now()
         };
 
         await updateDoc(todoRef, {
@@ -193,13 +201,23 @@ export const updateSubtask = async (todoId, subtaskId, updates) => {
             throw new Error('Subtask not found');
         }
 
+        const currentSubtask = subtasks[subtaskIndex];
         const updatedSubtasks = [...subtasks];
+        
+        // Update subtask while preserving required fields and types
         updatedSubtasks[subtaskIndex] = {
-            ...updatedSubtasks[subtaskIndex],
+            ...currentSubtask,
             ...updates,
+            id: currentSubtask.id, // Ensure ID is not overwritten
+            name: String(updates.name || currentSubtask.name),
+            description: updates.description || currentSubtask.description || '',
+            completed: Boolean(updates.completed ?? currentSubtask.completed),
+            priority: updates.priority || currentSubtask.priority || 'medium',
+            estimatedTime: updates.estimatedTime || currentSubtask.estimatedTime || null,
+            notes: updates.notes || currentSubtask.notes || '',
             updatedAt: Timestamp.now()
         };
-
+        
         await updateDoc(todoRef, { subtasks: updatedSubtasks });
         return updatedSubtasks[subtaskIndex];
     } catch (error) {
