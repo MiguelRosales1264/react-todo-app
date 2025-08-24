@@ -23,12 +23,7 @@ function formatDate(date) {
     }
 }
 
-export default function TodoCard({
-    todo,
-    onToggleComplete,
-    onEdit,
-    onDelete,
-}) {
+export default function TodoCard({ todo, onToggleComplete, onEdit, onDelete }) {
     const {
         id,
         name,

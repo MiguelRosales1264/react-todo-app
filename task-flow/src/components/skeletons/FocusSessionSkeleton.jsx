@@ -46,7 +46,7 @@ export default function FocusSessionSkeleton() {
                         >
                             {/* Checkbox */}
                             <div className="w-5 h-5 mt-1 rounded-full bg-gray-200 animate-pulse" />
-                            
+
                             {/* Content */}
                             <div className="flex-1">
                                 <div className="h-5 w-2/3 bg-gray-200 rounded mb-2 animate-pulse" />

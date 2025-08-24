@@ -13,7 +13,7 @@ export default function DailyReviewSkeleton() {
 
             {/* Progress Bar Skeleton */}
             <div className="w-full bg-gray-200 rounded-full h-4 animate-pulse" />
-            
+
             {/* Stats Skeleton */}
             <div className="text-center mt-2 mb-6 flex flex-col items-center gap-1">
                 <div className="h-6 w-32 bg-gray-200 rounded animate-pulse" />

@@ -23,11 +23,12 @@ export default function Sidebar() {
     const { todos, loading } = useTodos();
 
     // Calculate stats
-    const todaysTasks = todos.filter(todo => isToday(todo.dueDate));
-    const completedTasks = todaysTasks.filter(todo => todo.completed);
+    const todaysTasks = todos.filter((todo) => isToday(todo.dueDate));
+    const completedTasks = todaysTasks.filter((todo) => todo.completed);
     const tasksCount = todaysTasks.length;
     const completedCount = completedTasks.length;
-    const progress = tasksCount > 0 ? Math.round((completedCount / tasksCount) * 100) : 0;
+    const progress =
+        tasksCount > 0 ? Math.round((completedCount / tasksCount) * 100) : 0;
 
     // Handle Menu Close on Escape Key
     useEffect(() => {
@@ -205,11 +206,15 @@ export default function Sidebar() {
                                     <div className="bg-gray-200 rounded-full h-2.5">
                                         <div
                                             className="bg-blue-500 h-2.5 rounded-full transition-all duration-300"
-                                            style={{ width: `${loading ? 0 : progress}%` }}
+                                            style={{
+                                                width: `${loading ? 0 : progress}%`,
+                                            }}
                                         ></div>
                                     </div>
                                     <p className="text-xs text-gray-500 mt-1">
-                                        {loading ? 'Loading...' : `${progress}% of tasks completed`}
+                                        {loading
+                                            ? 'Loading...'
+                                            : `${progress}% of tasks completed`}
                                     </p>
                                 </div>
                             </div>

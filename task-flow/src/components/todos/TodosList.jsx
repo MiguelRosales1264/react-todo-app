@@ -87,7 +87,7 @@ export default function TodosList({
     };
 
     const handleDelete = async (id) => {
-        const todo = todos.find(t => t.id === id);
+        const todo = todos.find((t) => t.id === id);
         setDeletingTodo(todo);
     };
 
@@ -184,7 +184,8 @@ export default function TodosList({
                 >
                     <div className="p-6">
                         <p className="text-sm text-gray-600">
-                            Are you sure you want to delete "{deletingTodo.name}"? This action cannot be undone.
+                            Are you sure you want to delete "{deletingTodo.name}
+                            "? This action cannot be undone.
                         </p>
                         <div className="mt-6 flex justify-end gap-3">
                             <button
