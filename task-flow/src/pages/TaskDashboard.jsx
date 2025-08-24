@@ -33,7 +33,7 @@ export default function TaskDashboard() {
         );
     }
 
-    // Filter for overdue tasks
+    // Filter tasks
     const overdueTasks = todos.filter((todo) => {
         if (!todo.dueDate || todo.completed) return false;
         const dueDate = new Date(todo.dueDate);
@@ -41,6 +41,9 @@ export default function TaskDashboard() {
         today.setHours(0, 0, 0, 0); // Reset time to start of day for fair comparison
         return dueDate < today;
     });
+
+    const completedTasks = todos.filter((todo) => todo.completed);
+    const activeTasks = todos.filter((todo) => !todo.completed);
 
     return (
         <div className="flex flex-col gap-6 p-4">
@@ -67,11 +70,21 @@ export default function TaskDashboard() {
                 </div>
             )}
 
-            {/* All Tasks Section */}
+            {/* Active Tasks Section */}
             <div>
-                <h2 className="text-lg font-semibold mb-3">All Tasks</h2>
-                <TodosList todos={todos} />
+                <h2 className="text-lg font-semibold mb-3">Active Tasks</h2>
+                <TodosList todos={activeTasks} />
             </div>
+
+            {/* Completed Tasks Section */}
+            {completedTasks.length > 0 && (
+                <div className="mt-8">
+                    <h2 className="text-lg font-semibold text-gray-600 mb-3">
+                        Completed Tasks ({completedTasks.length})
+                    </h2>
+                    <TodosList todos={completedTasks} />
+                </div>
+            )}
         </div>
     );
 }

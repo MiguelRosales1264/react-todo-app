@@ -97,7 +97,7 @@ export default function TodoCard({ todo, onToggleComplete, onEdit, onDelete }) {
                     ? 'border-green-200 bg-green-50/30'
                     : 'border-gray-200'
             } p-4 hover:shadow-md transition-all ${
-                completed ? 'opacity-75' : ''
+                completed ? 'opacity-75' : ''}
             }`}
         >
             {/* Top Section: Title, Category, and Actions */}
@@ -127,7 +127,7 @@ export default function TodoCard({ todo, onToggleComplete, onEdit, onDelete }) {
 
                     {/* Title and Category */}
                     <div className="flex-1 min-w-0">
-                        <h3 className="text-base font-medium text-gray-900 truncate">
+                        <h3 className={`text-base font-medium text-gray-900 truncate ${completed ? 'line-through' : ''}`}>
                             {name}
                         </h3>
                         <div className="mt-1 flex items-center gap-2">
