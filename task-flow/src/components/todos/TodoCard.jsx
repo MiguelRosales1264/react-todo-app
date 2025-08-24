@@ -88,9 +88,9 @@ export default function TodoCard({ todo, onToggleComplete }) {
     const formattedDueDate = formatDate(dueDate);
     const formattedScheduledTime = scheduledTime
         ? new Date(scheduledTime).toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-          })
+            hour: '2-digit',
+            minute: '2-digit',
+        })
         : '';
 
     return (
