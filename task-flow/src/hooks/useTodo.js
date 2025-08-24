@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { 
-    getTodoById, 
-    updateTodo, 
+import {
+    getTodoById,
+    updateTodo,
     deleteTodo,
     addSubtask,
     updateSubtask,
-    deleteSubtask 
+    deleteSubtask,
 } from '../firebase/todoService';
 
 export const useTodo = (id) => {
@@ -147,6 +147,6 @@ export const useTodo = (id) => {
         toggleComplete,
         addTodoSubtask,
         updateTodoSubtask,
-        deleteTodoSubtask
+        deleteTodoSubtask,
     };
 };

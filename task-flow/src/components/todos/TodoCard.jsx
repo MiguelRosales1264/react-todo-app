@@ -85,16 +85,30 @@ export default function TodoCard({ todo, onToggleComplete }) {
         alert('Delete Task: ' + name);
     };
 
+    const formattedDueDate = formatDate(dueDate);
+    const formattedScheduledTime = scheduledTime
+        ? new Date(scheduledTime).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+        })
+        : '';
+
     return (
-        <div className="flex flex-col bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+        <div className={`flex flex-col bg-white rounded-lg shadow-sm border ${
+            completed ? 'border-green-200 bg-green-50/30' : 'border-gray-200'
+        } p-4 hover:shadow-md transition-all ${
+            completed ? 'opacity-75' : ''
+        }`}>
             {/* Top Section: Title, Category, and Actions */}
             <div className="flex items-start justify-between w-full mb-3">
                 <div className="flex items-start gap-3 flex-1">
                     {/* Checkbox */}
                     <Button
                         variant="icon"
-                        className="-ml-1.5 text-gray-400 hover:text-gray-600"
-                        ariaLabel="Mark task complete"
+                        className={`-ml-1.5 ${
+                            completed ? 'text-green-600' : 'text-gray-400 hover:text-gray-600'
+                        }`}
+                        ariaLabel={completed ? "Mark task incomplete" : "Mark task complete"}
                         onClick={() => onToggleComplete(id)}
                     >
                         <img
@@ -169,18 +183,33 @@ export default function TodoCard({ todo, onToggleComplete }) {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2 pt-3 border-t border-gray-100 gap-2">
                 <div className="flex items-center gap-3">
                     <span className="flex items-center gap-1 text-sm text-gray-500">
-                        <img src={calendar} alt="Calendar Icon" className="w-4 h-4" />
-                        {formatDate(dueDate) || <span className="italic text-gray-400">No due date</span>}
+                        <img
+                            src={calendar}
+                            alt="Calendar Icon"
+                            className="w-4 h-4"
+                        />
+                        {formatDate(dueDate) || (
+                            <span className="italic text-gray-400">
+                                No due date
+                            </span>
+                        )}
                     </span>
                     {scheduledTime && (
                         <span className="text-sm text-gray-500">
                             @{' '}
                             {(() => {
                                 let d = scheduledTime;
-                                if (typeof d === 'string' || typeof d === 'number') d = new Date(d);
+                                if (
+                                    typeof d === 'string' ||
+                                    typeof d === 'number'
+                                )
+                                    d = new Date(d);
                                 else if (d.toDate) d = d.toDate();
                                 if (isNaN(d.getTime())) return '';
-                                return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                                return d.toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                });
                             })()}
                         </span>
                     )}

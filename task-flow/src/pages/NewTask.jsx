@@ -16,7 +16,19 @@ export default function NewTask() {
     // Add subtask
     const handleAddSubtask = () => {
         if (!subtaskInput.trim()) return;
-        setSubtasks([...subtasks, { name: subtaskInput, completed: false }]);
+        const newSubtask = {
+            id: `st_${Date.now()}${Math.random().toString(36).substr(2, 9)}`,
+            title: subtaskInput.trim(),
+            description: '',
+            status: 'not_started',
+            completed: false,
+            priority: 'medium',
+            estimatedTime: null,
+            notes: '',
+            createdAt: new Date(),
+            updatedAt: new Date()
+        };
+        setSubtasks([...subtasks, newSubtask]);
         setSubtaskInput('');
     };
     // Remove subtask
@@ -33,7 +45,9 @@ export default function NewTask() {
                 category,
                 timeEstimate: Number(timeEstimate),
                 dueDate: dueDate ? new Date(dueDate) : null,
-                scheduledTime: scheduledTime ? new Date(`${dueDate}T${scheduledTime}`) : null,
+                scheduledTime: scheduledTime
+                    ? new Date(`${dueDate}T${scheduledTime}`)
+                    : null,
                 description,
                 subtasks,
             });
@@ -69,7 +83,7 @@ export default function NewTask() {
                     <input
                         type="text"
                         value={name}
-                        onChange={e => setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                         className="border p-2 w-full rounded"
                         placeholder="Task name"
                     />
@@ -79,17 +93,19 @@ export default function NewTask() {
                     <input
                         type="text"
                         value={category}
-                        onChange={e => setCategory(e.target.value)}
+                        onChange={(e) => setCategory(e.target.value)}
                         className="border p-2 w-full rounded"
                         placeholder="Category (e.g. Work, Personal)"
                     />
                 </div>
                 <div>
-                    <label className="block font-medium">Time Estimate (minutes)</label>
+                    <label className="block font-medium">
+                        Time Estimate (minutes)
+                    </label>
                     <input
                         type="number"
                         value={timeEstimate}
-                        onChange={e => setTimeEstimate(e.target.value)}
+                        onChange={(e) => setTimeEstimate(e.target.value)}
                         className="border p-2 w-full rounded"
                         placeholder="e.g. 30"
                         min="1"
@@ -101,16 +117,18 @@ export default function NewTask() {
                         <input
                             type="date"
                             value={dueDate}
-                            onChange={e => setDueDate(e.target.value)}
+                            onChange={(e) => setDueDate(e.target.value)}
                             className="border p-2 w-full rounded"
                         />
                     </div>
                     <div className="flex-1">
-                        <label className="block font-medium">Scheduled Time</label>
+                        <label className="block font-medium">
+                            Scheduled Time
+                        </label>
                         <input
                             type="time"
                             value={scheduledTime}
-                            onChange={e => setScheduledTime(e.target.value)}
+                            onChange={(e) => setScheduledTime(e.target.value)}
                             className="border p-2 w-full rounded"
                         />
                     </div>
@@ -119,7 +137,7 @@ export default function NewTask() {
                     <label className="block font-medium">Description</label>
                     <textarea
                         value={description}
-                        onChange={e => setDescription(e.target.value)}
+                        onChange={(e) => setDescription(e.target.value)}
                         className="border p-2 w-full rounded"
                         placeholder="Description (optional)"
                         rows={3}
@@ -131,15 +149,22 @@ export default function NewTask() {
                         <input
                             type="text"
                             value={subtaskInput}
-                            onChange={e => setSubtaskInput(e.target.value)}
+                            onChange={(e) => setSubtaskInput(e.target.value)}
                             className="border p-2 flex-1 rounded"
                             placeholder="Add subtask"
-                            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleAddSubtask(); } }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    handleAddSubtask();
+                                }
+                            }}
                         />
                         <Button
                             onClick={handleAddSubtask}
                             className="bg-blue-500 text-white px-3 py-2 rounded"
-                        >+ Add</Button>
+                        >
+                            + Add
+                        </Button>
                     </div>
                     <ul className="space-y-1">
                         {subtasks.map((st, idx) => (
@@ -147,8 +172,10 @@ export default function NewTask() {
                                 <span className="flex-1">{st.name}</span>
                                 <Button
                                     onClick={() => handleRemoveSubtask(idx)}
-                                    variant='danger'
-                                >Remove</Button>
+                                    variant="danger"
+                                >
+                                    Remove
+                                </Button>
                             </li>
                         ))}
                     </ul>
@@ -156,11 +183,15 @@ export default function NewTask() {
                 <Button
                     onClick={handleAddTask}
                     className="px-4 py-2 rounded w-full mt-2 font-semibold"
-                    variant='primary'
-                >+ Create Task</Button>
+                    variant="primary"
+                >
+                    + Create Task
+                </Button>
             </div>
             <div className="mt-8">
-                <h3 className="font-semibold mb-2">All Todos ({todos.length}):</h3>
+                <h3 className="font-semibold mb-2">
+                    All Todos ({todos.length}):
+                </h3>
                 {todos.map((todo) => (
                     <div
                         key={todo.id}
@@ -171,13 +202,20 @@ export default function NewTask() {
                                 {todo.name} - {todo.category}
                             </div>
                             <div className="text-sm text-gray-500">
-                                {todo.timeEstimate} mins - Due: {todo.dueDate ? new Date(todo.dueDate).toLocaleDateString() : ''}
+                                {todo.timeEstimate} mins - Due:{' '}
+                                {todo.dueDate
+                                    ? new Date(
+                                          todo.dueDate
+                                      ).toLocaleDateString()
+                                    : ''}
                             </div>
                         </div>
                         <Button
                             onClick={() => handleRemoveTask(todo.id)}
                             className="bg-red-500 text-white p-2"
-                        >Remove</Button>
+                        >
+                            Remove
+                        </Button>
                     </div>
                 ))}
             </div>

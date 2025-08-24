@@ -21,13 +21,21 @@ function Layout() {
     );
 }
 
+import { useEffect } from 'react';
+import { setupPeriodicCleanup } from './utils/taskCleanup';
+
 function App() {
+    useEffect(() => {
+        // Set up periodic cleanup of old completed tasks
+        setupPeriodicCleanup();
+    }, []);
+
     return (
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<TaskDashboard />} />
                 <Route path="/new-task" element={<NewTask />} />
-                <Route path="/daily-review" element={<DailyReview />}/>
+                <Route path="/daily-review" element={<DailyReview />} />
                 <Route
                     path="/analytics"
                     element={
@@ -36,7 +44,10 @@ function App() {
                         </div>
                     }
                 />
-                <Route path='/focus-session/:todoId' element={<FocusSession />} />
+                <Route
+                    path="/focus-session/:todoId"
+                    element={<FocusSession />}
+                />
                 <Route path="/firebase-test" element={<FirebaseTest />} />
                 {/* <Route path="*" element={<NotFound />} /> */}
                 {/* Add more routes as needed */}

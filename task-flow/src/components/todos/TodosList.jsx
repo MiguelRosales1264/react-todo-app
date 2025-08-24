@@ -2,15 +2,24 @@ import { useTodos } from '../../hooks/useTodos';
 import TodoCard from './TodoCard';
 
 export default function TodosList() {
-    const { todos, loading } = useTodos();
+    const { todos, loading, updateTodo } = useTodos(); // Get all hooks at once
 
     if (loading) {
         return <div>Loading...</div>;
     }
-
-    const handleToggleComplete = (id) => {
-        // TODO: Implement toggle complete
-        console.log('Toggle complete:', id);
+    
+    const handleToggleComplete = async (id) => {
+        const todo = todos.find(t => t.id === id);
+        if (!todo) return;
+        
+        try {
+            await updateTodo(id, {
+                completed: !todo.completed,
+                completedAt: !todo.completed ? new Date() : null
+            });
+        } catch (error) {
+            console.error('Error toggling task completion:', error);
+        }
     };
 
     const handleOptionsClick = (id) => {
@@ -57,22 +66,45 @@ export default function TodosList() {
                     </div>
                 </section>
 
-                {/* All Tasks */}
+                {/* Active Tasks */}
                 <section className="mt-6">
                     <h2 className="text-xl font-semibold mb-4">
-                        Your Tasks ({todos.length})
+                        Active Tasks ({todos.filter(todo => !todo.completed).length})
                     </h2>
                     <div className="space-y-4">
-                        {todos.map((todo) => (
-                            <TodoCard
-                                key={todo.id}
-                                todo={todo}
-                                onToggleComplete={(id) => {
-                                    // TODO: Implement toggle complete
-                                    console.log('Toggle complete:', id);
-                                }}
-                            />
-                        ))}
+                        {todos
+                            .filter(todo => !todo.completed)
+                            .map((todo) => (
+                                <TodoCard
+                                    key={todo.id}
+                                    todo={todo}
+                                    onToggleComplete={handleToggleComplete}
+                                />
+                            ))}
+                        {todos.filter(todo => !todo.completed).length === 0 && (
+                            <p className="text-gray-500 text-center py-4">No active tasks</p>
+                        )}
+                    </div>
+                </section>
+
+                {/* Completed Tasks */}
+                <section className="mt-8 border-t pt-6">
+                    <h2 className="text-xl font-semibold mb-4 text-gray-600">
+                        Completed Tasks ({todos.filter(todo => todo.completed).length})
+                    </h2>
+                    <div className="space-y-4">
+                        {todos
+                            .filter(todo => todo.completed)
+                            .map((todo) => (
+                                <TodoCard
+                                    key={todo.id}
+                                    todo={todo}
+                                    onToggleComplete={handleToggleComplete}
+                                />
+                            ))}
+                        {todos.filter(todo => todo.completed).length === 0 && (
+                            <p className="text-gray-500 text-center py-4">No completed tasks</p>
+                        )}
                     </div>
                 </section>
             </div>
