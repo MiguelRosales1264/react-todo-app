@@ -1,14 +1,32 @@
 import { useParams } from 'react-router';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useTodo } from '../hooks/useTodo';
 import Modal from '../components/ui/Modal';
 import NewSubtaskForm from '../components/todos/NewSubtaskForm';
 import checkMark from '../assets/svg/check-mark-circle.svg';
+import optionsVertical from '../assets/svg/options-vertical.svg';
 
 export default function FocusSession() {
     const { todoId } = useParams();
-    const { todo, loading, error, addTodoSubtask, update, updateTodoSubtask } = useTodo(todoId);
+    const { todo, loading, error, addTodoSubtask, update, updateTodoSubtask, deleteTodoSubtask } = useTodo(todoId);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [activeSubtaskMenu, setActiveSubtaskMenu] = useState(null);
+    const [editingSubtask, setEditingSubtask] = useState(null);
+    const menuRef = useRef(null);
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setActiveSubtaskMenu(null);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const handleToggleSubtask = async (subtaskId) => {
         const subtask = todo.subtasks.find(st => st.id === subtaskId);
@@ -43,6 +61,26 @@ export default function FocusSession() {
             setIsModalOpen(false);
         } catch (error) {
             console.error('Error adding subtask:', error);
+        }
+    };
+
+    const handleEditSubtask = async (subtaskData) => {
+        if (!editingSubtask) return;
+        
+        try {
+            await updateTodoSubtask(editingSubtask.id, subtaskData);
+            setEditingSubtask(null);
+        } catch (error) {
+            console.error('Error updating subtask:', error);
+        }
+    };
+
+    const handleDeleteSubtask = async (subtaskId) => {
+        try {
+            await deleteTodoSubtask(subtaskId);
+            setActiveSubtaskMenu(null);
+        } catch (error) {
+            console.error('Error deleting subtask:', error);
         }
     };
 
@@ -127,11 +165,50 @@ export default function FocusSession() {
                                                     {subtask.title || "No Title"}
                                                 </span>
                                             </div>
-                                            <span className={`text-sm px-2 py-1 rounded ${
-                                                subtask.completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                                            }`}>
-                                                {subtask.completed ? 'Completed' : 'In Progress'}
-                                            </span>
+                                            <div className="flex items-center gap-2">
+                                                <span className={`text-sm px-2 py-1 rounded ${
+                                                    subtask.completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                                }`}>
+                                                    {subtask.completed ? 'Completed' : 'In Progress'}
+                                                </span>
+                                                <div className="relative">
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setActiveSubtaskMenu(activeSubtaskMenu === subtask.id ? null : subtask.id);
+                                                        }}
+                                                        className="p-1 hover:bg-gray-100 rounded-full"
+                                                    >
+                                                        <img
+                                                            src={optionsVertical}
+                                                            alt="Options"
+                                                            className="w-4 h-4"
+                                                        />
+                                                    </button>
+                                                    {activeSubtaskMenu === subtask.id && (
+                                                        <div
+                                                            ref={menuRef}
+                                                            className="absolute right-0 mt-1 py-2 w-48 bg-white rounded-md shadow-lg z-10 border"
+                                                        >
+                                                            <button
+                                                                onClick={() => {
+                                                                    setEditingSubtask(subtask);
+                                                                    setActiveSubtaskMenu(null);
+                                                                }}
+                                                                className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                                                            >
+                                                                Edit Subtask
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDeleteSubtask(subtask.id)}
+                                                                className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                                                            >
+                                                                Delete Subtask
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
                                         {subtask.description && (
                                             <p className="text-sm text-gray-600 mt-1">{subtask.description}</p>
@@ -172,6 +249,21 @@ export default function FocusSession() {
                     onSubmit={handleAddSubtask}
                     onCancel={() => setIsModalOpen(false)}
                 />
+            </Modal>
+
+            {/* Edit Subtask Modal */}
+            <Modal
+                isOpen={!!editingSubtask}
+                onClose={() => setEditingSubtask(null)}
+                title="Edit Subtask"
+            >
+                {editingSubtask && (
+                    <NewSubtaskForm
+                        initialData={editingSubtask}
+                        onSubmit={handleEditSubtask}
+                        onCancel={() => setEditingSubtask(null)}
+                    />
+                )}
             </Modal>
         </div>
     );

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-export default function NewSubtaskForm({ onSubmit, onCancel }) {
+export default function NewSubtaskForm({ initialData, onSubmit, onCancel }) {
     const [formData, setFormData] = useState({
-        title: '',
-        description: '',
-        priority: 'medium',
-        estimatedTime: '',
-        notes: ''
+        title: initialData?.title || '',
+        description: initialData?.description || '',
+        priority: initialData?.priority || 'medium',
+        estimatedTime: initialData?.estimatedTime || '',
+        notes: initialData?.notes || ''
     });
 
     const handleSubmit = (e) => {
@@ -100,7 +100,7 @@ export default function NewSubtaskForm({ onSubmit, onCancel }) {
                     type="submit"
                     className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
-                    Add Subtask
+                    {initialData ? 'Update Subtask' : 'Add Subtask'}
                 </button>
             </div>
         </form>
