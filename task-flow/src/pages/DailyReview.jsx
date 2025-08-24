@@ -3,6 +3,8 @@ import { useTodos } from '../hooks/useTodos';
 import TodoCard from '../components/todos/TodoCard';
 import Button from '../components/ui/Button';
 import glitter from '../assets/svg/glitter.svg';
+import { quotes } from '../data/quotes';
+import DailyReviewSkeleton from '../components/skeletons/DailyReviewSkeleton';
 
 function isToday(date) {
     if (!date) return false;
@@ -29,17 +31,18 @@ export default function DailyReview() {
     const total = todaysTasks.length;
     const progress = total > 0 ? (completed / total) * 100 : 0;
 
-    // Simulate AI quote fetch
+    // Get a random quote
     const getInspiration = async () => {
         setLoadingQuote(true);
         setQuote(null);
-        // Simulate API call
+
+        // Simulate API call with random quote selection
         setTimeout(() => {
-            setQuote(
-                'Success is the sum of small efforts, repeated day in and day out. – Robert Collier'
-            );
+            const randomQuote =
+                quotes[Math.floor(Math.random() * quotes.length)];
+            setQuote(`${randomQuote.text} – ${randomQuote.author}`);
             setLoadingQuote(false);
-        }, 1200);
+        }, 800);
     };
 
     return (
@@ -92,7 +95,7 @@ export default function DailyReview() {
 
             <h2 className="text-xl font-semibold mb-4">Today's Tasks</h2>
             {loading ? (
-                <div>Loading...</div>
+                <DailyReviewSkeleton />
             ) : total === 0 ? (
                 <div className="text-gray-500 italic mb-8">
                     No tasks due today. Enjoy your day!

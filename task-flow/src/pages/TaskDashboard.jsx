@@ -2,11 +2,36 @@ import { Link } from 'react-router';
 import Button from '../components/ui/Button';
 import { useTodos } from '../hooks/useTodos';
 import TodosList from '../components/todos/TodosList';
+import TaskCardSkeleton from '../components/todos/TaskCardSkeleton';
 
 export default function TaskDashboard() {
     const { todos, loading } = useTodos();
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) {
+        return (
+            <div className="flex flex-col gap-6 p-4 animate-fade-in">
+                <div>
+                    <h1 className="text-2xl font-bold">Task Dashboard</h1>
+                    <p>Stay organized and achieve your goals</p>
+                    <div className="mt-4">
+                        <Button variant="primary" disabled>
+                            + New Task
+                        </Button>
+                    </div>
+                </div>
+
+                {/* Loading state for tasks */}
+                <div>
+                    <h2 className="text-lg font-semibold mb-3">All Tasks</h2>
+                    <div className="space-y-4">
+                        <TaskCardSkeleton />
+                        <TaskCardSkeleton />
+                        <TaskCardSkeleton />
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     // Filter for overdue tasks
     const overdueTasks = todos.filter((todo) => {
