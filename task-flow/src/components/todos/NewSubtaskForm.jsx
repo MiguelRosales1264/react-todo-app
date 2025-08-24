@@ -34,7 +34,7 @@ export default function NewSubtaskForm({ onSubmit, onCancel }) {
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     required
                 />
             </div>
@@ -46,7 +46,7 @@ export default function NewSubtaskForm({ onSubmit, onCancel }) {
                     value={formData.description}
                     onChange={handleChange}
                     rows="3"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
             </div>
 
@@ -56,11 +56,12 @@ export default function NewSubtaskForm({ onSubmit, onCancel }) {
                     name="priority"
                     value={formData.priority}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
+                    <option value="critical">Critical</option>
                 </select>
             </div>
 
@@ -72,7 +73,7 @@ export default function NewSubtaskForm({ onSubmit, onCancel }) {
                     value={formData.estimatedTime}
                     onChange={handleChange}
                     min="1"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
             </div>
 
@@ -83,7 +84,7 @@ export default function NewSubtaskForm({ onSubmit, onCancel }) {
                     value={formData.notes}
                     onChange={handleChange}
                     rows="2"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
             </div>
 

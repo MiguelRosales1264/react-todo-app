@@ -107,7 +107,7 @@ export default function FocusSession() {
                                         )}
                                         <div className="flex gap-2 text-xs text-gray-500 mt-1">
                                             {subtask.priority && (
-                                                <span>Priority: {subtask.priority}</span>
+                                                <span className='capitalize'>Priority: {subtask.priority}</span>
                                             )}
                                             {subtask.estimatedTime && (
                                                 <span>Est. Time: {subtask.estimatedTime}min</span>

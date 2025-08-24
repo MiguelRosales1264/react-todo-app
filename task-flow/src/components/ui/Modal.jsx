@@ -12,7 +12,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
                         onClick={onClose}
                         className="text-gray-500 hover:text-gray-700"
                     >
-                        ✕
+                        x
                     </button>
                 </div>
                 <div className="p-4">{children}</div>
