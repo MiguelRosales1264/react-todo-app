@@ -4,6 +4,7 @@ import TodoCard from './TodoCard';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import QuickEditModal from './QuickEditModal';
+import Modal from '../ui/Modal';
 
 export default function TodosList({
     todos: initialTodos,
@@ -13,6 +14,7 @@ export default function TodosList({
     const { loading, updateTodo } = useTodos();
     const navigate = useNavigate();
     const [editingTodo, setEditingTodo] = useState(null);
+    const [deletingTodo, setDeletingTodo] = useState(null);
     const [todos, setTodos] = useState(initialTodos);
 
     // Keep local todos in sync with prop updates
@@ -85,18 +87,23 @@ export default function TodosList({
     };
 
     const handleDelete = async (id) => {
-        const confirmed = window.confirm(
-            'Are you sure you want to delete this task?'
-        );
-        if (!confirmed) return;
+        const todo = todos.find(t => t.id === id);
+        setDeletingTodo(todo);
+    };
+
+    const confirmDelete = async () => {
+        if (!deletingTodo) return;
 
         try {
-            const updated = await updateTodo(id, { deleted: true });
+            const updated = await updateTodo(deletingTodo.id, { deleted: true });
 
             // Update local state - remove the deleted todo
             setTodos((currentTodos) =>
-                currentTodos.filter((todo) => todo.id !== id)
+                currentTodos.filter((todo) => todo.id !== deletingTodo.id)
             );
+
+            // Close the modal
+            setDeletingTodo(null);
 
             // Notify parent component if callback provided
             if (onTodoUpdate) {
@@ -156,9 +163,6 @@ export default function TodosList({
                             }
                             onEdit={() => handleEdit(todo.id)}
                             onDelete={() => handleDelete(todo.id)}
-                            onInProgress={() => handleInProgress(todo.id)}
-                            onReschedule={() => handleReschedule(todo.id)}
-                            onFocusSession={() => handleFocusSession(todo.id)}
                         />
                     ))}
                 </div>
@@ -170,6 +174,34 @@ export default function TodosList({
                     onClose={() => setEditingTodo(null)}
                     onSave={handleQuickEditSave}
                 />
+            )}
+
+            {deletingTodo && (
+                <Modal
+                    isOpen={true}
+                    onClose={() => setDeletingTodo(null)}
+                    title="Delete Task"
+                >
+                    <div className="p-6">
+                        <p className="text-sm text-gray-600">
+                            Are you sure you want to delete "{deletingTodo.name}"? This action cannot be undone.
+                        </p>
+                        <div className="mt-6 flex justify-end gap-3">
+                            <button
+                                onClick={() => setDeletingTodo(null)}
+                                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmDelete}
+                                className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700"
+                            >
+                                Delete Task
+                            </button>
+                        </div>
+                    </div>
+                </Modal>
             )}
         </>
     );

@@ -28,9 +28,6 @@ export default function TodoCard({
     onToggleComplete,
     onEdit,
     onDelete,
-    onInProgress,
-    onReschedule,
-    onFocusSession,
 }) {
     const {
         id,
@@ -83,15 +80,6 @@ export default function TodoCard({
         switch (action) {
             case 'edit':
                 onEdit?.();
-                break;
-            case 'focusSession':
-                onFocusSession?.();
-                break;
-            case 'inProgress':
-                onInProgress?.();
-                break;
-            case 'reschedule':
-                onReschedule?.();
                 break;
             case 'delete':
                 onDelete?.();
@@ -198,24 +186,6 @@ export default function TodoCard({
                                 onClick={() => handleMenuAction('edit')}
                             >
                                 Quick Edit
-                            </button>
-                            <button
-                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={() => handleMenuAction('focusSession')}
-                            >
-                                Open in Focus Session
-                            </button>
-                            <button
-                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={() => handleMenuAction('inProgress')}
-                            >
-                                Mark as In Progress
-                            </button>
-                            <button
-                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={() => handleMenuAction('reschedule')}
-                            >
-                                Reschedule Task
                             </button>
                             <button
                                 className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
