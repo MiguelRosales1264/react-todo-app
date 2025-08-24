@@ -2,9 +2,32 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import dashboardIcon from '../assets/svg/dashboard.svg';
 import Button from './ui/Button';
+import { useTodos } from '../hooks/useTodos';
+
+function isToday(date) {
+    if (!date) return false;
+    let d = date;
+    if (typeof d === 'string' || typeof d === 'number') d = new Date(d);
+    else if (d.toDate) d = d.toDate();
+    if (isNaN(d.getTime())) return false;
+    const today = new Date();
+    return (
+        d.getDate() === today.getDate() &&
+        d.getMonth() === today.getMonth() &&
+        d.getFullYear() === today.getFullYear()
+    );
+}
 
 export default function Sidebar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { todos, loading } = useTodos();
+
+    // Calculate stats
+    const todaysTasks = todos.filter(todo => isToday(todo.dueDate));
+    const completedTasks = todaysTasks.filter(todo => todo.completed);
+    const tasksCount = todaysTasks.length;
+    const completedCount = completedTasks.length;
+    const progress = tasksCount > 0 ? Math.round((completedCount / tasksCount) * 100) : 0;
 
     // Handle Menu Close on Escape Key
     useEffect(() => {
@@ -162,9 +185,9 @@ export default function Sidebar() {
                                 <ul className="text-sm text-gray-600">
                                     <li>
                                         <div className="flex justify-between py-3 px-4 hover:bg-gray-200 rounded-md">
-                                            <p>Todays Tasks</p>{' '}
+                                            <p>Today's Tasks</p>{' '}
                                             <span className="font-bold text-green-600">
-                                                5
+                                                {loading ? '-' : tasksCount}
                                             </span>
                                         </div>
                                     </li>
@@ -172,7 +195,7 @@ export default function Sidebar() {
                                         <div className="flex justify-between py-3 px-4 hover:bg-gray-200 rounded-md">
                                             <p>Completed</p>{' '}
                                             <span className="font-bold text-red-600">
-                                                3
+                                                {loading ? '-' : completedCount}
                                             </span>
                                         </div>
                                     </li>
@@ -181,12 +204,12 @@ export default function Sidebar() {
                                 <div className="mt-4">
                                     <div className="bg-gray-200 rounded-full h-2.5">
                                         <div
-                                            className="bg-blue-500 h-2.5 rounded-full"
-                                            style={{ width: '60%' }}
+                                            className="bg-blue-500 h-2.5 rounded-full transition-all duration-300"
+                                            style={{ width: `${loading ? 0 : progress}%` }}
                                         ></div>
                                     </div>
                                     <p className="text-xs text-gray-500 mt-1">
-                                        60% of tasks completed
+                                        {loading ? 'Loading...' : `${progress}% of tasks completed`}
                                     </p>
                                 </div>
                             </div>
