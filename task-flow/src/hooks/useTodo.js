@@ -52,15 +52,13 @@ export const useTodo = (id) => {
     const update = async (updatedData) => {
         if (!id) return;
         try {
-            setLoading(true);
-            await updateTodo(id, updatedData);
-            const updated = await getTodoById(id);
-            setTodo(updated);
+            const updatedTodo = await updateTodo(id, updatedData);
+            setTodo(prev => ({ ...prev, ...updatedTodo }));
+            return updatedTodo;
         } catch (err) {
             setError(err);
             console.error('Error updating todo:', err);
-        } finally {
-            setLoading(false);
+            throw err;
         }
     };
 
@@ -94,10 +92,11 @@ export const useTodo = (id) => {
     const addTodoSubtask = async (subtaskData) => {
         if (!id) return;
         try {
-            setLoading(true);
-            await addSubtask(id, subtaskData);
-            const updated = await getTodoById(id);
-            setTodo(updated);
+            const newSubtask = await addSubtask(id, subtaskData);
+            setTodo(prev => ({
+                ...prev,
+                subtasks: [...(prev.subtasks || []), newSubtask]
+            }));
         } catch (err) {
             setError(err);
             console.error('Error adding subtask:', err);
@@ -110,15 +109,18 @@ export const useTodo = (id) => {
     const updateTodoSubtask = async (subtaskId, subtaskData) => {
         if (!id) return;
         try {
-            setLoading(true);
-            await updateSubtask(id, subtaskId, subtaskData);
-            const updated = await getTodoById(id);
-            setTodo(updated);
+            const updatedSubtask = await updateSubtask(id, subtaskId, subtaskData);
+            setTodo(prev => ({
+                ...prev,
+                subtasks: prev.subtasks.map(st =>
+                    st.id === subtaskId ? { ...st, ...updatedSubtask } : st
+                )
+            }));
+            return updatedSubtask;
         } catch (err) {
             setError(err);
             console.error('Error updating subtask:', err);
-        } finally {
-            setLoading(false);
+            throw err;
         }
     };
 
@@ -126,15 +128,15 @@ export const useTodo = (id) => {
     const deleteTodoSubtask = async (subtaskId) => {
         if (!id) return;
         try {
-            setLoading(true);
             await deleteSubtask(id, subtaskId);
-            const updated = await getTodoById(id);
-            setTodo(updated);
+            setTodo(prev => ({
+                ...prev,
+                subtasks: prev.subtasks.filter(st => st.id !== subtaskId)
+            }));
         } catch (err) {
             setError(err);
             console.error('Error deleting subtask:', err);
-        } finally {
-            setLoading(false);
+            throw err;
         }
     };
 
