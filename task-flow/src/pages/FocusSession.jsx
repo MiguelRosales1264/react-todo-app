@@ -12,6 +12,7 @@ export default function FocusSession() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeSubtaskMenu, setActiveSubtaskMenu] = useState(null);
     const [editingSubtask, setEditingSubtask] = useState(null);
+    const [priorityFilter, setPriorityFilter] = useState('all');
     const menuRef = useRef(null);
 
     // Close menu when clicking outside
@@ -133,7 +134,20 @@ export default function FocusSession() {
                     {/* Subtasks section */}
                     <div className="mt-4">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-semibold">Subtasks</h3>
+                            <div className="flex items-center gap-4">
+                                <h3 className="text-lg font-semibold">Subtasks</h3>
+                                <select
+                                    value={priorityFilter}
+                                    onChange={(e) => setPriorityFilter(e.target.value)}
+                                    className="px-2 py-1 border rounded-md text-sm bg-white"
+                                >
+                                    <option value="all">All Priorities</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="critical">Critical</option>
+                                </select>
+                            </div>
                             <button
                                 onClick={() => setIsModalOpen(true)}
                                 className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
@@ -142,8 +156,10 @@ export default function FocusSession() {
                             </button>
                         </div>
                         {todo.subtasks && todo.subtasks.length > 0 ? (
-                            <ul className=" space-y-2 mt-2">
-                                {todo.subtasks.map((subtask) => (
+                            <ul className="space-y-2 mt-2">
+                                {todo.subtasks
+                                    .filter(subtask => priorityFilter === 'all' || subtask.priority === priorityFilter)
+                                    .map((subtask) => (
                                     <li key={subtask.id} className="p-3 border rounded-lg bg-white shadow-sm">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-3">
