@@ -3,11 +3,27 @@ import { useState } from 'react';
 import { useTodo } from '../hooks/useTodo';
 import Modal from '../components/ui/Modal';
 import NewSubtaskForm from '../components/todos/NewSubtaskForm';
+import checkMark from '../assets/svg/check-mark-circle.svg';
 
 export default function FocusSession() {
     const { todoId } = useParams();
-    const { todo, loading, error, addTodoSubtask, update } = useTodo(todoId);
+    const { todo, loading, error, addTodoSubtask, update, updateTodoSubtask } = useTodo(todoId);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleToggleSubtask = async (subtaskId) => {
+        const subtask = todo.subtasks.find(st => st.id === subtaskId);
+        if (!subtask) return;
+
+        try {
+            await updateTodoSubtask(subtaskId, {
+                completed: !subtask.completed,
+                status: !subtask.completed ? 'completed' : 'in_progress',
+                updatedAt: new Date()
+            });
+        } catch (error) {
+            console.error('Error toggling subtask completion:', error);
+        }
+    };
     
     const handleToggleComplete = async () => {
         try {
@@ -92,7 +108,25 @@ export default function FocusSession() {
                                 {todo.subtasks.map((subtask) => (
                                     <li key={subtask.id} className="p-3 border rounded-lg bg-white shadow-sm">
                                         <div className="flex items-center justify-between">
-                                            <span className="font-medium">{subtask.title ? subtask.title : "No Title"}</span>
+                                            <div className="flex items-center gap-3">
+                                                <button
+                                                    onClick={() => handleToggleSubtask(subtask.id)}
+                                                    className={`w-6 h-6 flex items-center justify-center rounded-full transition-colors ${
+                                                        subtask.completed 
+                                                            ? 'text-green-600 hover:text-green-700' 
+                                                            : 'text-gray-400 hover:text-gray-600'
+                                                    }`}
+                                                >
+                                                    <img 
+                                                        src={checkMark} 
+                                                        alt="Toggle completion"
+                                                        className="w-5 h-5"
+                                                    />
+                                                </button>
+                                                <span className={`font-medium ${subtask.completed ? 'line-through text-gray-500' : ''}`}>
+                                                    {subtask.title || "No Title"}
+                                                </span>
+                                            </div>
                                             <span className={`text-sm px-2 py-1 rounded ${
                                                 subtask.completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
                                             }`}>
