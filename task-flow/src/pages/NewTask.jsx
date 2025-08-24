@@ -188,37 +188,6 @@ export default function NewTask() {
                     + Create Task
                 </Button>
             </div>
-            <div className="mt-8">
-                <h3 className="font-semibold mb-2">
-                    All Todos ({todos.length}):
-                </h3>
-                {todos.map((todo) => (
-                    <div
-                        key={todo.id}
-                        className="flex flex-col md:flex-row gap-4 justify-between border p-2 mb-2"
-                    >
-                        <div className="flex flex-col gap-2">
-                            <div className="text-lg font-semibold">
-                                {todo.name} - {todo.category}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                                {todo.timeEstimate} mins - Due:{' '}
-                                {todo.dueDate
-                                    ? new Date(
-                                          todo.dueDate
-                                      ).toLocaleDateString()
-                                    : ''}
-                            </div>
-                        </div>
-                        <Button
-                            onClick={() => handleRemoveTask(todo.id)}
-                            className="bg-red-500 text-white p-2"
-                        >
-                            Remove
-                        </Button>
-                    </div>
-                ))}
-            </div>
         </div>
     );
 }
