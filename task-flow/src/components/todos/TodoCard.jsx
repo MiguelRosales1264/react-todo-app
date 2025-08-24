@@ -237,8 +237,8 @@ export default function TodoCard({ todo, onToggleComplete, onEdit, onDelete }) {
                             style={{ width: `${progress}%` }}
                         />
                     </div>
-                    <span className="text-xs text-gray-500">
-                        {completedSubtasks}/{totalSubtasks}
+                    <span className="text-xs text-gray-500 min-w-[80px]">
+                        {completedSubtasks}/{totalSubtasks} ({Math.round(progress)}%)
                     </span>
                 </div>
             </div>
