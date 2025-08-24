@@ -26,7 +26,7 @@ export default function NewTask() {
             estimatedTime: null,
             notes: '',
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
         };
         setSubtasks([...subtasks, newSubtask]);
         setSubtaskInput('');

@@ -23,7 +23,15 @@ function formatDate(date) {
     }
 }
 
-export default function TodoCard({ todo, onToggleComplete }) {
+export default function TodoCard({
+    todo,
+    onToggleComplete,
+    onEdit,
+    onDelete,
+    onInProgress,
+    onReschedule,
+    onFocusSession,
+}) {
     const {
         id,
         name,
@@ -52,6 +60,7 @@ export default function TodoCard({ todo, onToggleComplete }) {
             if (
                 menuRef.current &&
                 !menuRef.current.contains(event.target) &&
+                buttonRef.current &&
                 !buttonRef.current.contains(event.target)
             ) {
                 setMenuOpen(false);
@@ -68,37 +77,45 @@ export default function TodoCard({ todo, onToggleComplete }) {
     }, [menuOpen]);
 
     // Menu action handlers
-    const handleEdit = () => {
+    const handleMenuAction = (action) => {
         setMenuOpen(false);
-        alert('Edit Task: ' + name);
-    };
-    const handleInProgress = () => {
-        setMenuOpen(false);
-        alert('Mark as In Progress: ' + name);
-    };
-    const handleReschedule = () => {
-        setMenuOpen(false);
-        alert('Reschedule Task: ' + name);
-    };
-    const handleDelete = () => {
-        setMenuOpen(false);
-        alert('Delete Task: ' + name);
+        switch (action) {
+            case 'edit':
+                onEdit?.();
+                break;
+            case 'focusSession':
+                onFocusSession?.();
+                break;
+            case 'inProgress':
+                onInProgress?.();
+                break;
+            case 'reschedule':
+                onReschedule?.();
+                break;
+            case 'delete':
+                onDelete?.();
+                break;
+        }
     };
 
     const formattedDueDate = formatDate(dueDate);
     const formattedScheduledTime = scheduledTime
         ? new Date(scheduledTime).toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-        })
+              hour: '2-digit',
+              minute: '2-digit',
+          })
         : '';
 
     return (
-        <div className={`flex flex-col bg-white rounded-lg shadow-sm border ${
-            completed ? 'border-green-200 bg-green-50/30' : 'border-gray-200'
-        } p-4 hover:shadow-md transition-all ${
-            completed ? 'opacity-75' : ''
-        }`}>
+        <div
+            className={`flex flex-col bg-white rounded-lg shadow-sm border ${
+                completed
+                    ? 'border-green-200 bg-green-50/30'
+                    : 'border-gray-200'
+            } p-4 hover:shadow-md transition-all ${
+                completed ? 'opacity-75' : ''
+            }`}
+        >
             {/* Top Section: Title, Category, and Actions */}
             <div className="flex items-start justify-between w-full mb-3">
                 <div className="flex items-start gap-3 flex-1">
@@ -106,9 +123,15 @@ export default function TodoCard({ todo, onToggleComplete }) {
                     <Button
                         variant="icon"
                         className={`-ml-1.5 ${
-                            completed ? 'text-green-600' : 'text-gray-400 hover:text-gray-600'
+                            completed
+                                ? 'text-green-600'
+                                : 'text-gray-400 hover:text-gray-600'
                         }`}
-                        ariaLabel={completed ? "Mark task incomplete" : "Mark task complete"}
+                        ariaLabel={
+                            completed
+                                ? 'Mark task incomplete'
+                                : 'Mark task complete'
+                        }
                         onClick={() => onToggleComplete(id)}
                     >
                         <img
@@ -152,25 +175,31 @@ export default function TodoCard({ todo, onToggleComplete }) {
                         >
                             <button
                                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={handleEdit}
+                                onClick={() => handleMenuAction('edit')}
                             >
-                                Edit Task
+                                Quick Edit
                             </button>
                             <button
                                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={handleInProgress}
+                                onClick={() => handleMenuAction('focusSession')}
+                            >
+                                Open in Focus Session
+                            </button>
+                            <button
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                onClick={() => handleMenuAction('inProgress')}
                             >
                                 Mark as In Progress
                             </button>
                             <button
                                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={handleReschedule}
+                                onClick={() => handleMenuAction('reschedule')}
                             >
                                 Reschedule Task
                             </button>
                             <button
                                 className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                                onClick={handleDelete}
+                                onClick={() => handleMenuAction('delete')}
                             >
                                 Delete Task
                             </button>

@@ -2,5 +2,7 @@
 
 button {
     cursor: pointer;
-    transition: all 0.3s, color 0.3s;
+    transition:
+        all 0.3s,
+        color 0.3s;
 }

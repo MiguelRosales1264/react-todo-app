@@ -6,29 +6,33 @@ export default function NewSubtaskForm({ initialData, onSubmit, onCancel }) {
         description: initialData?.description || '',
         priority: initialData?.priority || 'medium',
         estimatedTime: initialData?.estimatedTime || '',
-        notes: initialData?.notes || ''
+        notes: initialData?.notes || '',
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit({
             ...formData,
-            estimatedTime: formData.estimatedTime ? Number(formData.estimatedTime) : null
+            estimatedTime: formData.estimatedTime
+                ? Number(formData.estimatedTime)
+                : null,
         });
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label className="block text-sm font-medium text-gray-700">Title *</label>
+                <label className="block text-sm font-medium text-gray-700">
+                    Title *
+                </label>
                 <input
                     type="text"
                     name="title"
@@ -38,9 +42,11 @@ export default function NewSubtaskForm({ initialData, onSubmit, onCancel }) {
                     required
                 />
             </div>
-            
+
             <div>
-                <label className="block text-sm font-medium text-gray-700">Description</label>
+                <label className="block text-sm font-medium text-gray-700">
+                    Description
+                </label>
                 <textarea
                     name="description"
                     value={formData.description}
@@ -51,7 +57,9 @@ export default function NewSubtaskForm({ initialData, onSubmit, onCancel }) {
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700">Priority</label>
+                <label className="block text-sm font-medium text-gray-700">
+                    Priority
+                </label>
                 <select
                     name="priority"
                     value={formData.priority}
@@ -66,7 +74,9 @@ export default function NewSubtaskForm({ initialData, onSubmit, onCancel }) {
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700">Estimated Time (minutes)</label>
+                <label className="block text-sm font-medium text-gray-700">
+                    Estimated Time (minutes)
+                </label>
                 <input
                     type="number"
                     name="estimatedTime"
@@ -78,7 +88,9 @@ export default function NewSubtaskForm({ initialData, onSubmit, onCancel }) {
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700">Notes</label>
+                <label className="block text-sm font-medium text-gray-700">
+                    Notes
+                </label>
                 <textarea
                     name="notes"
                     value={formData.notes}
