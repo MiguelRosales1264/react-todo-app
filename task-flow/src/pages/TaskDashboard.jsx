@@ -3,6 +3,7 @@ import Button from '../components/ui/Button';
 import { useTodos } from '../hooks/useTodos';
 import TodosList from '../components/todos/TodosList';
 import TaskCardSkeleton from '../components/todos/TaskCardSkeleton';
+import dashboardIcon from '../assets/svg/dashboard.svg';
 
 export default function TaskDashboard() {
     const { todos, loading } = useTodos();
@@ -73,7 +74,26 @@ export default function TaskDashboard() {
             {/* Active Tasks Section */}
             <div>
                 <h2 className="text-lg font-semibold mb-3">Active Tasks</h2>
-                <TodosList todos={activeTasks} />
+                {activeTasks.length > 0 ? (
+                    <TodosList todos={activeTasks} />
+                ) : (
+                    <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+                        <img
+                            src={dashboardIcon}
+                            alt=""
+                            className="w-24 h-24 mx-auto mb-4 text-gray-400"
+                        />
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">No tasks yet</h3>
+                        <p className="text-gray-600 mb-4">
+                            Get started by creating your first task!
+                        </p>
+                        <Link to="/new-task">
+                            <Button variant="primary">
+                                Create Task
+                            </Button>
+                        </Link>
+                    </div>
+                )}
             </div>
 
             {/* Completed Tasks Section */}
