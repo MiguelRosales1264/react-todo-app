@@ -8,7 +8,7 @@ export default function QuickEditModal({ todo, onClose, onSave }) {
         name: todo.name,
         category: todo.category || '',
         timeEstimate: todo.timeEstimate || '',
-         dueDate: todo.dueDate
+        dueDate: todo.dueDate
             ? new Date(todo.dueDate).toISOString().split('T')[0]
             : '',
         status: todo.status || 'pending',
@@ -57,7 +57,7 @@ export default function QuickEditModal({ todo, onClose, onSave }) {
                     <Input
                         type="text"
                         value={formData.name}
-                        className='p-2'
+                        className="p-2"
                         onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
@@ -75,7 +75,7 @@ export default function QuickEditModal({ todo, onClose, onSave }) {
                     <Input
                         type="text"
                         value={formData.category}
-                        className='p-2'
+                        className="p-2"
                         onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
@@ -93,7 +93,7 @@ export default function QuickEditModal({ todo, onClose, onSave }) {
                     <Input
                         type="number"
                         value={formData.timeEstimate}
-                        className='p-2'
+                        className="p-2"
                         onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
@@ -112,7 +112,7 @@ export default function QuickEditModal({ todo, onClose, onSave }) {
                     <Input
                         type="date"
                         value={formData.dueDate}
-                        className='p-2'
+                        className="p-2"
                         onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
