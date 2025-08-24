@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTodos } from '../hooks/useTodos';
 import Button from '../components/ui/Button';
+import FormSkeleton from '../components/ui/FormSkeleton';
 
 export default function NewTask() {
     const { todos, loading, createTodo, removeTodo } = useTodos();
@@ -72,7 +73,14 @@ export default function NewTask() {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) {
+        return (
+            <div className="p-4 max-w-xl mx-auto">
+                <h1 className="text-2xl font-bold mb-4">Create New Task</h1>
+                <FormSkeleton />
+            </div>
+        );
+    }
 
     return (
         <div className="p-4 max-w-xl mx-auto">
