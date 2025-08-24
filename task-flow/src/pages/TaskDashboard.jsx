@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import Button from '../components/ui/Button';
 import { useTodos } from '../hooks/useTodos';
-import TodoList from '../components/todos/TodosList';
+import TodosList from '../components/todos/TodosList';
 
 export default function TaskDashboard() {
     const { todos, loading } = useTodos();
@@ -9,7 +9,7 @@ export default function TaskDashboard() {
     if (loading) return <div>Loading...</div>;
 
     // Filter for overdue tasks
-    const overdueTasks = todos.filter(todo => {
+    const overdueTasks = todos.filter((todo) => {
         if (!todo.dueDate || todo.completed) return false;
         const dueDate = new Date(todo.dueDate);
         const today = new Date();
@@ -35,8 +35,8 @@ export default function TaskDashboard() {
                     <h2 className="text-lg font-semibold text-red-700 mb-3">
                         Overdue Tasks ({overdueTasks.length})
                     </h2>
-                    <TodoList 
-                        todos={overdueTasks} 
+                    <TodosList
+                        todos={overdueTasks}
                         className="bg-white rounded-lg shadow-sm"
                     />
                 </div>
@@ -45,7 +45,7 @@ export default function TaskDashboard() {
             {/* All Tasks Section */}
             <div>
                 <h2 className="text-lg font-semibold mb-3">All Tasks</h2>
-                <TodoList todos={todos} />
+                <TodosList todos={todos} />
             </div>
         </div>
     );

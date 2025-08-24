@@ -43,12 +43,11 @@ export const useTodos = () => {
     // Update todo
     const editTodo = async (id, updates) => {
         try {
-            await updateTodo(id, updates);
+            const updatedTodo = await updateTodo(id, updates);
             setTodos((prev) =>
-                prev.map((todo) =>
-                    todo.id === id ? { ...todo, ...updates } : todo
-                )
+                prev.map((todo) => (todo.id === id ? updatedTodo : todo))
             );
+            return updatedTodo;
         } catch (err) {
             setError(err);
             throw err;
@@ -72,6 +71,7 @@ export const useTodos = () => {
         error,
         createTodo,
         editTodo,
+        updateTodo: editTodo, // Alias for compatibility
         removeTodo,
     };
 };
