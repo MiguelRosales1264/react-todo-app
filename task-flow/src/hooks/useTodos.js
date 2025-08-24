@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
-    getTodos,
+    subscribeTodos,
     addTodo,
     updateTodo,
     deleteTodo,
@@ -11,21 +11,18 @@ export const useTodos = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Fetch todos from Firestore on mount
+    // Subscribe to todos from Firestore on mount
     useEffect(() => {
-        const fetchTodos = async () => {
-            try {
-                setLoading(true);
-                const todosData = await getTodos();
-                setTodos(todosData);
-            } catch (err) {
-                setError(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+        setLoading(true);
+        
+        // Subscribe to real-time updates
+        const unsubscribe = subscribeTodos((todosData) => {
+            setTodos(todosData);
+            setLoading(false);
+        });
 
-        fetchTodos();
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
     }, []);
 
     // Add todo

@@ -10,6 +10,7 @@ import {
     where,
     orderBy,
     Timestamp,
+    onSnapshot,
 } from 'firebase/firestore';
 import { db } from './config';
 
@@ -62,6 +63,32 @@ export const getTodos = async () => {
         console.error('Error getting todos: ', error);
         throw error;
     }
+};
+
+// Subscribe to todos (real-time updates)
+export const subscribeTodos = (callback) => {
+    const q = query(
+        collection(db, TODOS_COLLECTION),
+        orderBy('createdAt', 'desc')
+    );
+
+    return onSnapshot(q, (querySnapshot) => {
+        const todos = querySnapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                ...data,
+                createdAt: data.createdAt.toDate(),
+                dueDate: data.dueDate ? data.dueDate.toDate() : null,
+                scheduledTime: data.scheduledTime
+                    ? data.scheduledTime.toDate()
+                    : null,
+            };
+        });
+        callback(todos);
+    }, (error) => {
+        console.error('Error subscribing to todos:', error);
+    });
 };
 
 // Get a specific todo by ID
