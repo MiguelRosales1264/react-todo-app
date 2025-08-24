@@ -41,6 +41,7 @@ export default function TodoCard({
         scheduledTime,
         subtasks,
         completed,
+        status
     } = todo;
 
     const completedSubtasks =
@@ -149,6 +150,19 @@ export default function TodoCard({
                         <div className="mt-1 flex items-center gap-2">
                             <Chip color="blue">
                                 {category || 'No Category'}
+                            </Chip>
+                            <Chip 
+                                color={
+                                    completed ? 'green' : 
+                                    status === 'in_progress' ? 'yellow' :
+                                    progress > 0 ? 'blue' :
+                                    'gray'
+                                }
+                            >
+                                {completed ? 'Completed' : 
+                                 status === 'in_progress' ? 'In Progress' :
+                                 progress > 0 ? 'Started' :
+                                 'Not Started'}
                             </Chip>
                             <span className="text-sm text-gray-500">
                                 {timeEstimate} min
