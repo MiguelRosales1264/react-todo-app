@@ -73,5 +73,6 @@ export const useTodos = () => {
         editTodo,
         updateTodo: editTodo, // Alias for compatibility
         removeTodo,
+        deleteTodo: removeTodo, // Alias for clarity
     };
 };

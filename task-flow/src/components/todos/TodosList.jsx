@@ -11,7 +11,7 @@ export default function TodosList({
     className = '',
     onTodoUpdate,
 }) {
-    const { loading, updateTodo } = useTodos();
+    const { loading, updateTodo, deleteTodo } = useTodos();
     const navigate = useNavigate();
     const [editingTodo, setEditingTodo] = useState(null);
     const [deletingTodo, setDeletingTodo] = useState(null);
@@ -95,7 +95,7 @@ export default function TodosList({
         if (!deletingTodo) return;
 
         try {
-            const updated = await updateTodo(deletingTodo.id, { deleted: true });
+            await deleteTodo(deletingTodo.id);
 
             // Update local state - remove the deleted todo
             setTodos((currentTodos) =>
