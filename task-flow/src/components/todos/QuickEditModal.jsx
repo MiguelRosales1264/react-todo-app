@@ -57,6 +57,7 @@ export default function QuickEditModal({ todo, onClose, onSave }) {
                     <Input
                         type="text"
                         value={formData.name}
+                        className='p-2'
                         onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
@@ -74,6 +75,7 @@ export default function QuickEditModal({ todo, onClose, onSave }) {
                     <Input
                         type="text"
                         value={formData.category}
+                        className='p-2'
                         onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
@@ -91,6 +93,7 @@ export default function QuickEditModal({ todo, onClose, onSave }) {
                     <Input
                         type="number"
                         value={formData.timeEstimate}
+                        className='p-2'
                         onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
@@ -109,6 +112,7 @@ export default function QuickEditModal({ todo, onClose, onSave }) {
                     <Input
                         type="date"
                         value={formData.dueDate}
+                        className='p-2'
                         onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
@@ -130,7 +134,7 @@ export default function QuickEditModal({ todo, onClose, onSave }) {
                                 status: e.target.value,
                             }))
                         }
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        className="p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     >
                         <option value="pending">Pending</option>
                         <option value="in_progress">In Progress</option>
