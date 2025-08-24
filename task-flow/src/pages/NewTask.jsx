@@ -125,7 +125,22 @@ export default function NewTask() {
                         <input
                             type="date"
                             value={dueDate}
-                            onChange={(e) => setDueDate(e.target.value)}
+                            onChange={(e) => {
+                                const selectedDate = new Date(e.target.value);
+                                const today = new Date();
+                                today.setHours(0, 0, 0, 0);
+                                
+                                if (selectedDate >= today) {
+                                    setDueDate(e.target.value);
+                                    // Clear scheduled time if date changes
+                                    if (e.target.value !== dueDate) {
+                                        setScheduledTime('');
+                                    }
+                                } else {
+                                    alert("Please select today or a future date");
+                                }
+                            }}
+                            min={new Date().toISOString().split('T')[0]}
                             className="border p-2 w-full rounded"
                         />
                     </div>
@@ -136,8 +151,25 @@ export default function NewTask() {
                         <input
                             type="time"
                             value={scheduledTime}
-                            onChange={(e) => setScheduledTime(e.target.value)}
+                            onChange={(e) => {
+                                const selectedTime = e.target.value;
+                                const now = new Date();
+                                const currentTime = now.toTimeString().slice(0, 5); // Get current time in HH:mm format
+                                const selectedDate = new Date(dueDate);
+                                
+                                // If it's today's date, validate the time
+                                if (selectedDate.toDateString() === now.toDateString() && selectedTime <= currentTime) {
+                                    alert("Please select a future time for today's tasks");
+                                    return;
+                                }
+                                
+                                setScheduledTime(selectedTime);
+                            }}
                             className="border p-2 w-full rounded"
+                            disabled={!dueDate} // Disable if no date is selected
+                            min={dueDate === new Date().toISOString().split('T')[0] ? 
+                                new Date().toTimeString().slice(0, 5) : // If today, set min to current time
+                                undefined} // If future date, no min time
                         />
                     </div>
                 </div>
