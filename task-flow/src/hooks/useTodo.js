@@ -53,7 +53,7 @@ export const useTodo = (id) => {
         if (!id) return;
         try {
             const updatedTodo = await updateTodo(id, updatedData);
-            setTodo(prev => ({ ...prev, ...updatedTodo }));
+            setTodo((prev) => ({ ...prev, ...updatedTodo }));
             return updatedTodo;
         } catch (err) {
             setError(err);
@@ -93,9 +93,9 @@ export const useTodo = (id) => {
         if (!id) return;
         try {
             const newSubtask = await addSubtask(id, subtaskData);
-            setTodo(prev => ({
+            setTodo((prev) => ({
                 ...prev,
-                subtasks: [...(prev.subtasks || []), newSubtask]
+                subtasks: [...(prev.subtasks || []), newSubtask],
             }));
         } catch (err) {
             setError(err);
@@ -109,12 +109,16 @@ export const useTodo = (id) => {
     const updateTodoSubtask = async (subtaskId, subtaskData) => {
         if (!id) return;
         try {
-            const updatedSubtask = await updateSubtask(id, subtaskId, subtaskData);
-            setTodo(prev => ({
+            const updatedSubtask = await updateSubtask(
+                id,
+                subtaskId,
+                subtaskData
+            );
+            setTodo((prev) => ({
                 ...prev,
-                subtasks: prev.subtasks.map(st =>
+                subtasks: prev.subtasks.map((st) =>
                     st.id === subtaskId ? { ...st, ...updatedSubtask } : st
-                )
+                ),
             }));
             return updatedSubtask;
         } catch (err) {
@@ -129,9 +133,9 @@ export const useTodo = (id) => {
         if (!id) return;
         try {
             await deleteSubtask(id, subtaskId);
-            setTodo(prev => ({
+            setTodo((prev) => ({
                 ...prev,
-                subtasks: prev.subtasks.filter(st => st.id !== subtaskId)
+                subtasks: prev.subtasks.filter((st) => st.id !== subtaskId),
             }));
         } catch (err) {
             setError(err);
