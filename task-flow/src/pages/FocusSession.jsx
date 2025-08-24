@@ -96,14 +96,20 @@ export default function FocusSession() {
                 <div className="text-red-500">Error: {error.message}</div>
             )}
             {todo ? (
-                <div className={todo.completed ? 'opacity-50' : ''}>
-                    <div className="flex justify-between items-start mb-4">
-                        <h2 className={`text-xl font-semibold ${todo.completed ? 'line-through' : ''}`}>
-                            {todo.name}
-                        </h2>
+                <div className={`${todo.completed ? 'opacity-50' : ''} bg-white rounded-lg shadow-sm p-6`}>
+                    {/* Header Section */}
+                    <div className="flex justify-between items-start mb-6 pb-4 border-b">
+                        <div>
+                            <h2 className={`text-2xl font-bold ${todo.completed ? 'line-through text-gray-500' : ''}`}>
+                                {todo.name}
+                            </h2>
+                            {todo.description && (
+                                <p className="mt-2 text-gray-600">{todo.description}</p>
+                            )}
+                        </div>
                         <button
                             onClick={handleToggleComplete}
-                            className={`px-4 py-2 rounded-md text-white ${
+                            className={`px-4 py-2 rounded-md text-white transition-colors ${
                                 todo.completed
                                     ? 'bg-yellow-500 hover:bg-yellow-600'
                                     : 'bg-green-600 hover:bg-green-700'
@@ -112,24 +118,68 @@ export default function FocusSession() {
                             {todo.completed ? 'Mark Incomplete' : 'Mark Complete'}
                         </button>
                     </div>
-                    <p className="mt-2">{todo.description}</p>
-                    <p className="mt-2">
-                        Due Date:{' '}
-                        {todo.dueDate
-                            ? new Date(todo.dueDate).toLocaleDateString()
-                            : 'No due date'}
-                    </p>
-                    {/* <p className="mt-2">Scheduled Time: {todo.scheduledTime ? todo.scheduledTime : 'No scheduled time'}</p> */}
-                    <p className="mt-2">Category: {todo.category}</p>
-                    <p className="mt-2">
-                        Time Estimate: {todo.timeEstimate} minutes
-                    </p>
-                    <p className="mt-2">
-                        Completed: {todo.completed ? 'Yes' : 'No'}
-                    </p>
-                    <p className="mt-2">
-                        Created At: {new Date(todo.createdAt).toLocaleString()}
-                    </p>
+
+                    {/* Task Details Grid */}
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div className="p-4 bg-gray-50 rounded-lg">
+                            <h3 className="text-sm font-medium text-gray-500 mb-1">Status</h3>
+                            <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                                todo.completed 
+                                    ? 'bg-green-100 text-green-800' 
+                                    : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                                {todo.completed ? 'Completed' : 'In Progress'}
+                            </div>
+                        </div>
+
+                        <div className="p-4 bg-gray-50 rounded-lg">
+                            <h3 className="text-sm font-medium text-gray-500 mb-1">Due Date</h3>
+                            <p className="text-gray-900">
+                                {todo.dueDate
+                                    ? new Date(todo.dueDate).toLocaleDateString('en-US', {
+                                        weekday: 'short',
+                                        month: 'short',
+                                        day: 'numeric'
+                                    })
+                                    : 'No due date'}
+                            </p>
+                        </div>
+
+                        <div className="p-4 bg-gray-50 rounded-lg">
+                            <h3 className="text-sm font-medium text-gray-500 mb-1">Category</h3>
+                            <div className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                                {todo.category || 'Uncategorized'}
+                            </div>
+                        </div>
+
+                        <div className="p-4 bg-gray-50 rounded-lg">
+                            <h3 className="text-sm font-medium text-gray-500 mb-1">Time Estimate</h3>
+                            <p className="text-gray-900">
+                                {todo.timeEstimate ? `${todo.timeEstimate} minutes` : 'Not set'}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Additional Details */}
+                                        {/* Additional Details */}
+                    <div className="text-sm text-gray-500 flex gap-4 border-t pt-4 mb-6">
+                        <span>Created: {new Date(todo.createdAt).toLocaleString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit'
+                        })}</span>
+                        {todo.completed && todo.completedAt && (
+                            <span>Completed: {new Date(todo.completedAt).toLocaleString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: '2-digit'
+                            })}</span>
+                        )}
+                    </div>
+
+                    {/* Subtasks section */}
 
                     {/* Subtasks section */}
                     <div className="mt-4">
