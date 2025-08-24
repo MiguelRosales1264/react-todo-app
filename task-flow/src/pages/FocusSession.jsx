@@ -5,6 +5,7 @@ import Modal from '../components/ui/Modal';
 import NewSubtaskForm from '../components/todos/NewSubtaskForm';
 import checkMark from '../assets/svg/check-mark-circle.svg';
 import optionsVertical from '../assets/svg/options-vertical.svg';
+import FocusSessionSkeleton from '../components/skeletons/FocusSessionSkeleton';
 
 export default function FocusSession() {
     const { todoId } = useParams();
@@ -94,7 +95,7 @@ export default function FocusSession() {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <FocusSessionSkeleton />;
     }
 
     return (
