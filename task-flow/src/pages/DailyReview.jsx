@@ -3,6 +3,7 @@ import { useTodos } from '../hooks/useTodos';
 import TodoCard from '../components/todos/TodoCard';
 import Button from '../components/ui/Button';
 import glitter from '../assets/svg/glitter.svg';
+import DailyReviewSkeleton from '../components/skeletons/DailyReviewSkeleton';
 
 function isToday(date) {
     if (!date) return false;
@@ -92,7 +93,7 @@ export default function DailyReview() {
 
             <h2 className="text-xl font-semibold mb-4">Today's Tasks</h2>
             {loading ? (
-                <div>Loading...</div>
+                <DailyReviewSkeleton />
             ) : total === 0 ? (
                 <div className="text-gray-500 italic mb-8">
                     No tasks due today. Enjoy your day!
