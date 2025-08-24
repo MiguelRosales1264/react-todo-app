@@ -26,9 +26,40 @@ export default function TodosList({ todos, className = '' }) {
         }
     };
 
-    const handleOptionsClick = (id) => {
-        // TODO: Implement options menu
-        console.log('Options clicked:', id);
+    const handleEdit = async (id) => {
+        // Navigate to the task edit page or open edit modal
+        window.location.href = `/task/${id}/edit`;
+    };
+
+    const handleDelete = async (id) => {
+        const confirmed = window.confirm('Are you sure you want to delete this task?');
+        if (!confirmed) return;
+
+        try {
+            await updateTodo(id, { deleted: true });
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
+    };
+
+    const handleInProgress = async (id) => {
+        try {
+            await updateTodo(id, { status: 'in_progress' });
+        } catch (error) {
+            console.error('Error updating task status:', error);
+        }
+    };
+
+    const handleReschedule = async (id) => {
+        // For now, just set to tomorrow. In future, can add a date picker
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+        try {
+            await updateTodo(id, { dueDate: tomorrow });
+        } catch (error) {
+            console.error('Error rescheduling task:', error);
+        }
     };
 
     return (
@@ -39,6 +70,10 @@ export default function TodosList({ todos, className = '' }) {
                         key={todo.id}
                         todo={todo}
                         onToggleComplete={() => handleToggleComplete(todo.id)}
+                        onEdit={() => handleEdit(todo.id)}
+                        onDelete={() => handleDelete(todo.id)}
+                        onInProgress={() => handleInProgress(todo.id)}
+                        onReschedule={() => handleReschedule(todo.id)}
                     />
                 ))}
             </div>

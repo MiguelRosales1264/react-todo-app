@@ -23,7 +23,14 @@ function formatDate(date) {
     }
 }
 
-export default function TodoCard({ todo, onToggleComplete }) {
+export default function TodoCard({ 
+    todo, 
+    onToggleComplete,
+    onEdit,
+    onDelete,
+    onInProgress,
+    onReschedule
+}) {
     const {
         id,
         name,
@@ -68,21 +75,22 @@ export default function TodoCard({ todo, onToggleComplete }) {
     }, [menuOpen]);
 
     // Menu action handlers
-    const handleEdit = () => {
+    const handleMenuAction = (action) => {
         setMenuOpen(false);
-        alert('Edit Task: ' + name);
-    };
-    const handleInProgress = () => {
-        setMenuOpen(false);
-        alert('Mark as In Progress: ' + name);
-    };
-    const handleReschedule = () => {
-        setMenuOpen(false);
-        alert('Reschedule Task: ' + name);
-    };
-    const handleDelete = () => {
-        setMenuOpen(false);
-        alert('Delete Task: ' + name);
+        switch (action) {
+            case 'edit':
+                onEdit?.();
+                break;
+            case 'inProgress':
+                onInProgress?.();
+                break;
+            case 'reschedule':
+                onReschedule?.();
+                break;
+            case 'delete':
+                onDelete?.();
+                break;
+        }
     };
 
     const formattedDueDate = formatDate(dueDate);
@@ -152,25 +160,25 @@ export default function TodoCard({ todo, onToggleComplete }) {
                         >
                             <button
                                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={handleEdit}
+                                onClick={() => handleMenuAction('edit')}
                             >
                                 Edit Task
                             </button>
                             <button
                                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={handleInProgress}
+                                onClick={() => handleMenuAction('inProgress')}
                             >
                                 Mark as In Progress
                             </button>
                             <button
                                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={handleReschedule}
+                                onClick={() => handleMenuAction('reschedule')}
                             >
                                 Reschedule Task
                             </button>
                             <button
                                 className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                                onClick={handleDelete}
+                                onClick={() => handleMenuAction('delete')}
                             >
                                 Delete Task
                             </button>
